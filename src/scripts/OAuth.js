@@ -1,9 +1,6 @@
 
-function openLoginWindow() {
-    window.open("https://www.bungie.net/en/News", "_self");
-    return true
-}
+const variabile_prova = 10;
 
 module.exports = {
-    openLoginWindow
+    variabile_prova
 };

@@ -10,31 +10,30 @@ let bungie_response = ref({});
 function openLoginWindow() {
   let uri = "https://www.bungie.net/en/oauth/authorize?client_id=40726&response_type=code&state=6i0mkLx79Hp91nzWVeHrzMN4"
 
-  const login_window = window.open(uri, "_self");
+  const login_window = window.open(uri, "Redirect Prova ", "_self");
 
 }
 
 function tokenRequest() {
-  const params = {
-    grant_type: "authorization_code",
-    code: "3251b607e51b82114dce5251406b42a1",
-    client_id: '40726'
-  };
+  var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+    
+  var urlencoded = new URLSearchParams();
+    urlencoded.append("grant_type", "authorization_code");
+    urlencoded.append("code", bungie_code.value);
+    urlencoded.append("client_id", "40726");
 
-  const options = {
+  var requestOptions = {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded' 
-    },
-    body: JSON.stringify( params )  
+    headers: myHeaders,
+    body: urlencoded
   };
 
-  fetch('https://www.bungie.net/platform/app/oauth/token/', options)
-    .then( response => response.json())
-    .then( response => {
-      bungie_response.value = response;
-      console.log(response);
-    }) 
+  fetch("https://www.bungie.net/platform/app/oauth/token/", requestOptions)
+    .then(response => response.text())
+    .then(result => bungie_response.value = result)
+    .catch(error => console.log('error', error));
+
 }
 
 function displayResults() {
@@ -49,13 +48,18 @@ function displayResults() {
     <h1> Destiny 2 Armor Appraiser</h1>
     <p>Please login with your <a href="https://www.bungie.net/">Bungie.net</a> account</p>
 
+    <p><form>
+        Code: <input type="text" name="code" v-model="bungie_code">
+    </form></p>
+
     <button @click="openLoginWindow"> Log In </button>
     <button @click="tokenRequest"> POST </button>
     <button @click="displayResults"> Display </button>
 
     <p v-if="logged==1">
-      Here is the response from the bungie api for the request of: /User/GetMembershipsForCurrentUser/: {{bungie_response}} And
+      Here is the response from the bungie api for the request of: /User/GetMembershipsForCurrentUser/: {{bungie_response}}
     </p>
+
   </main>
 </template>
 
