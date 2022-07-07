@@ -236,5 +236,6 @@ module.exports = {
     profileDataFilter,
     characterDataFilter,
     filterByScore,
-    valuationAlgorithm_v1
+    valuationAlgorithm_v1,
+    createIdString
 }
