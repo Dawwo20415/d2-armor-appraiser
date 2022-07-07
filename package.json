@@ -9,7 +9,8 @@
     "scripts": {
         "start": "node backend/core.js",
         "dev": "nodemon backend/core.js",
-        "link": "node backend/logic/bungie-generate-link.js"
+        "link": "node backend/logic/bungie-generate-link.js",
+        "algorithm": "node tests/algorithm-from-file.js"
     },
     "author": "Dawwo-15",
     "license": "MIT",
