@@ -169,12 +169,16 @@ function profileDataFilter(dataSet, character) {
 //Main Algorithm
 function valuationAlgorithm_v1(filteredDataSet, weight) {
     var scoredDataSet = filteredDataSet;
+    var total_weight = 0;
+    for (let i = 0; i < weight.length; i++) {
+        total_weight += weight[i];
+    }
 
     for (let i = 0; i < scoredDataSet.data.length; i++) {
         // Total value based on weight of stats
         var weighted_total = 0;
         for (let j = 0; j < 6; j++) {
-            weighted_total += scoredDataSet.data[i].stats[hashes.stats_enum[j]] * weight[j]; 
+            weighted_total += scoredDataSet.data[i].stats[hashes.stats_enum[j]] * (1 + (weight[j] / total_weight)); 
         } 
 
         
@@ -206,6 +210,18 @@ function valuationAlgorithm_v1(filteredDataSet, weight) {
     return scoredDataSet;
 }
 
+function filterByScore(dataSet, treshold) {
+    var newDataSet = { data: [] };
+
+    for (let i = 0; i < dataSet.data.length; i++) {
+        if (dataSet.data[i].score <= treshold) {
+            newDataSet.data.push(dataSet.data[i]);
+        }
+    }
+    
+    return newDataSet;
+}
+
 //Filters raw json response for Destiny2.GetCharacter query (Armor pices in character inventory)
 function characterDataFilter(dataSet) {
     var filtered_dataSet;
@@ -219,5 +235,6 @@ function characterDataFilter(dataSet) {
 module.exports = {
     profileDataFilter,
     characterDataFilter,
+    filterByScore,
     valuationAlgorithm_v1
 }
