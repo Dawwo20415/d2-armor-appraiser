@@ -187,8 +187,8 @@ function valuationAlgorithm_v1(filteredDataSet, weight) {
         const dist_from_m5 = Math.abs((armor_tier+4)*5 - scoredDataSet.data[i].stats.tot);
         const armor_value = armor_tier - dist_from_m5 + 1;
 
-        // Coefficient of distribution, how well are the stats distributed?
-        // Larger the difference better score
+        // how well are the stats distributed?
+        // Larger the difference between stats means better score
         var stat_comulative_score = 0;
         for (let j = 0; j < 6; j++) {
             for (let k = 0; k < 5; k++) {
