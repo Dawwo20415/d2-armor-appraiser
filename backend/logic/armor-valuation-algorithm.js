@@ -232,10 +232,21 @@ function characterDataFilter(dataSet) {
     }
 }
 
+function compareByScore(a, b) {
+    if (a.score > b.score) {
+        return 1;
+    } else if (a.score <= b.score) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
 module.exports = {
     profileDataFilter,
     characterDataFilter,
     filterByScore,
     valuationAlgorithm_v1,
-    createIdString
+    createIdString,
+    compareByScore
 }
