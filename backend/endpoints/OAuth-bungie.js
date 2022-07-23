@@ -35,6 +35,10 @@ router.get('/', async (req, res) => {
     res.redirect(303, '/request');
 });
 
+//Reciver of Bungie redirect after login
+router.get('/confirm', async (req, res) => {
+    
+});
 
 
 //FUNCTIONS
