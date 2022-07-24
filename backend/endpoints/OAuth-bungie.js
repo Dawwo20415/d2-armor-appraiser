@@ -4,13 +4,14 @@ const bungie_api = require('../logic/bungie-api-interface');
 require('dotenv').config();
 
 const router = express.Router();
-var authToken = {};
+var user = {authToken:{},
+            membership:{}};
 
 
 //ROUTING
 //Get User Authentication Token
 router.get('/', async (req, res) => {
-    res.json({"Authentication":"Complete"});
+    res.json(user);
 });
 
 //Reciver of Bungie redirect after login
@@ -22,21 +23,20 @@ router.get('/confirm', async (req, res) => {
         return
     }
 
-    authToken = await getOAuth2Token(req.query.code);
+    user.authToken = await bungie_api.getAuthenticationToken(req.query.code);
+    user.membership = await bungie_api.getMembershipInfo(user.authToken.access_token)
 
     //Error in fetch request
-    if (authToken == {}) {
+    if (user.authToken == {}) {
         res.status(500).end();
         return
     }
 
     //Unsuccessful authentication
-    if (!authToken.access_token) {
+    if (!user.authToken.access_token) {
         res.status(401).end();
         return
     }
-
-    console.log(authToken);
 
     res.redirect(303, '/api/authentication');
 });
@@ -46,33 +46,9 @@ router.get('/first_login', async (req, res) => {
     res.redirect(301, 'https://www.bungie.net/en/oauth/authorize?client_id=' + process.env.OAUTH_CLIENT_ID + '&response_type=code&state=' + process.env.STATE);
 });
 
-//FUNCTIONS
-async function getOAuth2Token(code) {
-    var token = {};
-    
-    var myHeaders = new fetch.Headers();
-        myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
-    
-    var urlencoded = new URLSearchParams();
-        urlencoded.append("grant_type", "authorization_code");
-        urlencoded.append("code", code);
-        urlencoded.append("client_id", process.env.OAUTH_CLIENT_ID);
-    
-    console.log("Code: " + code);
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: urlencoded
-    };
-    
-    await fetch("https://www.bungie.net/platform/app/oauth/token/", requestOptions)
-        .then(response => response.text())
-        .then(response => token = JSON.parse(response))
-        .catch(error => console.log('error', error));
-
-    return token;
-}
+router.get('/test_request', async (req, res) => {
+    res.json(await bungie_api.getVaultArmors(user.authToken.access_token, user.membership))
+});
 
 module.exports = {
     router,
