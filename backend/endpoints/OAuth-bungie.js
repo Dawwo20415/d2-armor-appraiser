@@ -1,6 +1,6 @@
-const { response } = require('express');
 const express = require('express');
 const fetch = require('node-fetch');
+const bungie_api = require('../logic/bungie-api-interface');
 require('dotenv').config();
 
 const router = express.Router();
@@ -10,8 +10,14 @@ var authToken = {};
 //ROUTING
 //Get User Authentication Token
 router.get('/', async (req, res) => {
+    res.json({"Authentication":"Complete"});
+});
+
+//Reciver of Bungie redirect after login
+router.get('/confirm', async (req, res) => {
     //Erroneous request
     if (!req.query.code || !req.query.state) {
+        console.log("Errore 400");
         res.status(400).end();
         return
     }
@@ -32,14 +38,13 @@ router.get('/', async (req, res) => {
 
     console.log(authToken);
 
-    res.redirect(303, '/request');
+    res.redirect(303, '/api/authentication');
 });
 
-//Reciver of Bungie redirect after login
-router.get('/confirm', async (req, res) => {
-    
+//Redirect to bungie authentication form
+router.get('/first_login', async (req, res) => {
+    res.redirect(301, 'https://www.bungie.net/en/oauth/authorize?client_id=' + process.env.OAUTH_CLIENT_ID + '&response_type=code&state=' + process.env.STATE);
 });
-
 
 //FUNCTIONS
 async function getOAuth2Token(code) {

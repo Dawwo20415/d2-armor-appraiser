@@ -1,7 +1,26 @@
 const fetch = require('node-fetch');
 
-async function bungieAPIFetch(endpoint, components, membershipid) {
+async function bungieAPIFetch(endpoint, headers, urlParams) {
+    var res = {};
     
+    var myHeaders = new fetch.Headers();
+        myHeaders.append(headers);
+    
+    var urlencoded = new URLSearchParams();
+        urlencoded.append(urlParams);
+
+    var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: urlencoded
+    };
+    
+    await fetch("https://www.bungie.net/platform/" + endpoint , requestOptions)
+        .then(response => response.text())
+        .then(response => res = JSON.parse(response))
+        .catch(error => console.log('error', error));
+
+    return res;
 }
 
 async function getVaultArmors(character) {
@@ -20,5 +39,7 @@ async function getCharacterArmor(character) {
 }
 
 module.exports = {
-
+    bungieAPIFetch,
+    getVaultArmors,
+    getCharacterArmor
 };
