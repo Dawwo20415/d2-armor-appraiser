@@ -1,6 +1,7 @@
 const express = require('express');
 const fetch = require('node-fetch');
 const bungie_api = require('../logic/bungie-api-interface');
+const user_database = require('../logic/user_handling/user-handling');
 require('dotenv').config();
 
 const router = express.Router();
@@ -38,7 +39,9 @@ router.get('/confirm', async (req, res) => {
         return
     }
 
-    res.redirect(303, '/api/authentication');
+    user_database.addUser(user);
+
+    res.redirect(303, '/' + user.membership.Id + '/homepage');
 });
 
 //Redirect to bungie authentication form

@@ -92,7 +92,7 @@ async function getVaultArmors(auth_token, membership) {
             'Authorization', 'Bearer ' + auth_token
         ],
         parameters: [
-            'components','102,300,304'
+            'components','102,300,302,304'
         ]
     });
 
