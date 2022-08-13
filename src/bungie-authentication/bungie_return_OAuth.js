@@ -1,4 +1,9 @@
 const bungie_api = require('../../backend/logic/bungie-api-interface');
+const btn_manual = document.getElementById('manual_redirect');
+
+btn_manual.addEventListener('click', () => {
+    window.location.href = '/';
+});
 
 async function handleAuthReturn() {
     const query_params = new URL(window.location.href).searchParams;
@@ -20,9 +25,11 @@ async function handleAuthReturn() {
     }
 
     let token = await bungie_api.getAuthenticationToken(code);
-    console.log(token);
+    console.log(`Print of Token got from fetch: ${token}`);
     await localStorage.setItem('D2AA_authorization_token', JSON.stringify(token));
-    
+
+    console.log('Log Setted');
+
     window.location.href = '/';
 }
 

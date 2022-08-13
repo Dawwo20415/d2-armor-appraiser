@@ -15,14 +15,17 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: './public/index.html',
             filename: 'homepage.html',
-            chunks: ['homepage']
+            chunks: ['homepage'],
+            inject: false
         }),
         new HtmlWebpackPlugin({
             template: './public/confirm_auth.html',
             filename: 'confirm_auth.html',
-            chunks: ['confirm_auth']
+            chunks: ['confirm_auth'],
+            inject: false
         })
     ],
+    
     mode: 'development',
     devServer: {
         static: {

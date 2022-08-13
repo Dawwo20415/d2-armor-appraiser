@@ -9,6 +9,7 @@ const btn_reset = document.getElementById('reset');
 btn_reset.addEventListener('click', () => {
     localStorage.removeItem('D2AA_authState');
     localStorage.removeItem('D2AA_authorization_token');
+    window.location.reload();
 });
 
 btn.addEventListener('click', () => {
@@ -27,12 +28,11 @@ async function main () {
         return;
 
     text_title.innerHTML = "Access Succeded!";
-    console.log(authToken);
     const membership = await bungie_api.getMembershipInfo(JSON.parse(authToken).access_token);
     text_info.innerHTML = `${JSON.stringify(membership)}`;
 
     console.log(`Auth Token: ${JSON.stringify(authToken)}`);
-    console.log(`Membership Data: ${JSON.stringify(authToken)}`);
+    console.log(`Membership Data: ${JSON.stringify(membership)}`);
 
 }
 

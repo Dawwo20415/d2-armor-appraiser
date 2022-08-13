@@ -44,7 +44,6 @@ async function bungieAPIFetch({protocol, endpoint, parameters = [], headers = []
 
 async function getAuthenticationToken(code) {
 
-    console.log(`Code: ${code}`);
     return await bungieAPIFetch({
         protocol: 'POST',
         endpoint: 'app/oauth/token/',
