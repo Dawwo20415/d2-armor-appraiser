@@ -22,6 +22,12 @@ export const characters = {
     }
 };
 
+export const char_class = {
+    hunter: "671679327",
+    warlock: "2271682572",
+    titan: "3655393761"
+};
+
 export const stats = {
     mob: "2996146975",
     res: "392767087",

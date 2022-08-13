@@ -1,5 +1,5 @@
-import { characters, stats } from './hashes/characters';
-import { perks } from './hashes/perks';
+import { characters, stats } from './hashes/characters.js';
+import { perks } from './hashes/perks.js';
 
 /**
  * filtered dataset structure
@@ -122,7 +122,7 @@ function vaultArmorSelectConditions(profileItem, instanceItem, character) {
 }
 
 //Filters raw json response for Destiny2.GetProfile query (Armor pices in the vault)
-function profileDataFilter(dataSet, character) {
+export function profileDataFilter(dataSet, character) {
     var filtered_dataSet = { data: []};
     const profileItems = dataSet['Response']['profileInventory']['data']['items'];
     const itemInstances = dataSet['Response']['itemComponents']['instances']['data'];
@@ -164,7 +164,7 @@ function profileDataFilter(dataSet, character) {
 //#region Character-Armor-Management
 
 //Filters raw json response for Destiny2.GetCharacter query (Armor pices in character inventory)
-function characterDataFilter(dataSet) {
+export function characterArmorFilter(dataSet) {
     var filtered_dataSet;
 
     for (let i = 0; i < dataSet['Response']['profileInventory']['data']['items'].length; i++) {
@@ -176,9 +176,31 @@ function characterDataFilter(dataSet) {
 
 //#endregion
 
+//#region Character-Data-Management
+
+export function characterDataFilter(dataSet) {
+    let chars_data = { characters: []};
+
+    const _dataSet = dataSet['Response']['characters']['data'];
+
+    for (let i = 0; i < Object.keys(_dataSet).length; i++) {
+        const char_id = Object.keys(_dataSet)[i];
+
+        chars_data.characters[i] = {
+            character_id: char_id,
+            class_hash: _dataSet[char_id].classHash,
+            emblem_path: _dataSet[char_id].emblemBackgroundPath,
+        }
+    }
+
+    return chars_data;
+}
+
+//#endregion
+
 //#region Array-Utility
 
-function filterByScore(dataSet, treshold) {
+export function filterByScore(dataSet, treshold) {
     var newDataSet = { data: [] };
 
     for (let i = 0; i < dataSet.data.length; i++) {
@@ -190,7 +212,7 @@ function filterByScore(dataSet, treshold) {
     return newDataSet;
 }
 
-function filterByQuantity(dataSet, treshold) {
+export function filterByQuantity(dataSet, treshold) {
     var newDataSet = { data: [] };
 
     const quantity = dataSet.data.length - Math.trunc(dataSet.data.length * treshold);
@@ -202,7 +224,7 @@ function filterByQuantity(dataSet, treshold) {
     return newDataSet;
 }
 
-function compareByScore(a, b) {
+export function compareByScore(a, b) {
     if (a.score < b.score) {
         return 1;
     } else if (a.score >= b.score) {
@@ -212,7 +234,7 @@ function compareByScore(a, b) {
     }
 }
 
-function createIdString (data) {
+export function createIdString (data) {
     var result = "";
 
     for (let i = 0; i < data.length; i++) {
@@ -226,13 +248,3 @@ function createIdString (data) {
 }
 
 //#endregion
-
-
-module.exports = {
-    profileDataFilter,
-    characterDataFilter,
-    filterByScore,
-    filterByQuantity,
-    createIdString,
-    compareByScore
-}

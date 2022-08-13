@@ -1,5 +1,6 @@
 import { v4 as uuidV4 } from 'uuid';
-import { getMembershipInfo, getVaultArmors } from './bungie-api-interaction/bungie-api-interface';
+import { getMembershipInfo, getVaultArmors, getCharacterInfo } from './bungie-api-interaction/bungie-api-interface';
+import { characterDataFilter } from './bungie-api-interaction/armor-item-management';
 
 const btn = document.getElementById('redirect_button');
 const text_title = document.getElementById('status');
@@ -53,7 +54,12 @@ async function main () {
 
     text_title.innerHTML = "Access Succeded!";
     const membership = await getMembershipInfo(JSON.parse(authToken).access_token);
+    let characters = await getCharacterInfo(JSON.parse(authToken).access_token, membership);
+        characters = characterDataFilter(characters);
+
     await localStorage.setItem('D2AA_membership', JSON.stringify(membership));
+    await localStorage.setItem('D2AA_characters', JSON.stringify(characters));
+
     text_info.innerHTML = `${JSON.stringify(membership)}`;
 
 }

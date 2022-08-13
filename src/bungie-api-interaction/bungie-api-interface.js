@@ -77,20 +77,26 @@ export async function getMembershipInfo(auth_token) {
     };
 }
 
-export async function getVaultArmors(auth_token, membership) {
-
-    console.log(`Token: ${auth_token}`);
-    console.log(`Membership: ${membership.Id}`);
-    // This is the request to make:
-    // /Platform/Destiny2/2/Profile/4611686018436597386/?components=102,300,304
-    // This does not include weather an item is for example a leg or chest pice but can differentiate the armor
-    // However you can differentiate between characters
-
-    //Move the Json object found to another Json object with only essential information
-    //For dim to recognize you just need the "id" property of the item
+export async function getCharacterInfo(auth_token, membership) {
+    
     return await bungieAPIFetch({
         protocol: 'GET',
-        endpoint: 'Destiny2/' + membership.Type + '/Profile/' + membership.Id + '/',
+        endpoint: `Destiny2/${membership.Type}/Profile/${membership.Id}/`,
+        headers: [
+            'x-api-key', '2d0dd70900f1496a8d4b72bc4d883252',
+            'Authorization', 'Bearer ' + auth_token
+        ],
+        parameters: [
+            'components','200'
+        ]
+    });
+}
+
+export async function getVaultArmors(auth_token, membership) {
+
+    return await bungieAPIFetch({
+        protocol: 'GET',
+        endpoint: `Destiny2/${membership.Type}/Profile/${membership.Id}/`,
         headers: [
             'x-api-key', '2d0dd70900f1496a8d4b72bc4d883252',
             'Authorization', 'Bearer ' + auth_token
@@ -102,6 +108,17 @@ export async function getVaultArmors(auth_token, membership) {
 
 }
 
-export async function getCharacterArmor(character) {
-    //Similar request to the one before
+export async function getCharacterArmor(auth_token, membership, character_id) {
+
+    return await bungieAPIFetch({
+        protocol: 'GET',
+        endpoint: `Destiny2/${membership.Type}/Profile/${membership.Id}/Character/${character_id}/`,
+        headers: [
+            'x-api-key', '2d0dd70900f1496a8d4b72bc4d883252',
+            'Authorization', 'Bearer ' + auth_token
+        ],
+        parameters: [
+            'components','102,300,302,304'
+        ]
+    });
 }
