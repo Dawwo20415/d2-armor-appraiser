@@ -43,7 +43,8 @@ async function bungieAPIFetch({protocol, endpoint, parameters = [], headers = []
 }
 
 async function getAuthenticationToken(code) {
-    
+
+    console.log(`Code: ${code}`);
     return await bungieAPIFetch({
         protocol: 'POST',
         endpoint: 'app/oauth/token/',
@@ -53,7 +54,7 @@ async function getAuthenticationToken(code) {
         body: [
             "grant_type", "authorization_code",
             "code", code,
-            "client_id", process.env.OAUTH_CLIENT_ID
+            "client_id", "40726"
         ]
     });
 
@@ -65,7 +66,7 @@ async function getMembershipInfo(auth_token) {
         protocol: 'GET',
         endpoint: 'User/GetMembershipsForCurrentUser/',
         headers: [
-            'x-api-key', process.env.BUNGIE_API_KEY,
+            'x-api-key', "2d0dd70900f1496a8d4b72bc4d883252",
             'Authorization', 'Bearer ' + auth_token
         ]
     });

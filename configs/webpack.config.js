@@ -1,14 +1,28 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        login: './src/index.js'
+        homepage: './src/index.js',
+        confirm_auth: './src/bungie-authentication/bungie_return_OAuth.js'
     },
     output: {
-        filename: 'login.js',
+        filename: '[name].js',
         path: path.join(__dirname, '../dist'),
 
     },
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: './public/index.html',
+            filename: 'homepage.html',
+            chunks: ['homepage']
+        }),
+        new HtmlWebpackPlugin({
+            template: './public/confirm_auth.html',
+            filename: 'confirm_auth.html',
+            chunks: ['confirm_auth']
+        })
+    ],
     mode: 'development',
     devServer: {
         static: {

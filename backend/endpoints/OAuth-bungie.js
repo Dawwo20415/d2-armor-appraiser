@@ -25,7 +25,7 @@ router.get('/confirm', async (req, res) => {
     }
 
     user.authToken = await bungie_api.getAuthenticationToken(req.query.code);
-    user.membership = await bungie_api.getMembershipInfo(user.authToken.access_token)
+    user.membership = await bungie_api.getMembershipInfo(user.authToken.access_token);
 
     //Error in fetch request
     if (user.authToken == {}) {
