@@ -1,4 +1,4 @@
-const hashes = require('../bingie-definitions-hashes');
+import { stats_enum } from '../bungie-api-interaction/hashes/characters';
 
 //Main Algorithm
 function statDivergence_v1(filteredDataSet, weight) {
@@ -12,7 +12,7 @@ function statDivergence_v1(filteredDataSet, weight) {
         // Total value based on weight of stats
         var weighted_total = 0;
         for (let j = 0; j < 6; j++) {
-            weighted_total += scoredDataSet.data[i].stats[hashes.stats_enum[j]] * (1 + (weight[j] / total_weight)); 
+            weighted_total += scoredDataSet.data[i].stats[stats_enum[j]] * (1 + (weight[j] / total_weight)); 
         } 
 
         
@@ -28,7 +28,7 @@ function statDivergence_v1(filteredDataSet, weight) {
             for (let k = 0; k < 5; k++) {
                 if (k == j) {continue;}
                 
-                stat_comulative_score += Math.abs(scoredDataSet.data[i].stats[hashes.stats_enum[j]] - scoredDataSet.data[i].stats[hashes.stats_enum[k]]);
+                stat_comulative_score += Math.abs(scoredDataSet.data[i].stats[stats_enum[j]] - scoredDataSet.data[i].stats[stats_enum[k]]);
             }
         }
         

@@ -8,7 +8,7 @@
     "main": "app.js",
     "scripts": {
         "start": "node backend/core.js",
-        "dev": "webpack serve --config ./configs/webpack.config.js",
+        "dev": "webpack serve --config ./configs/webpack.config",
         "link": "node tests/bungie-generate-link.js",
         "algorithm": "node tests/algorithm-from-file.js",
         "build": "webpack --config ./configs/webpack.config.js"

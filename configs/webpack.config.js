@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: {
         homepage: './src/index.js',
-        confirm_auth: './src/bungie-authentication/bungie_return_OAuth.js'
+        confirm_auth: './src/bungie-api-interaction/bungie_return_OAuth.js'
     },
     output: {
         filename: '[name].js',

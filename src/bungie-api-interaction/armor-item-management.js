@@ -1,4 +1,5 @@
-const hashes = require('./bingie-definitions-hashes');
+import { characters, stats } from './hashes/characters';
+import { perks } from './hashes/perks';
 
 /**
  * filtered dataset structure
@@ -29,43 +30,43 @@ function adjustStatsForModifiers(item, perkList) {
         _hash = perkList.perks[i].perkHash;
 
         //+5
-        if (!(typeof hashes.perks.plus.five[_hash] === 'undefined')) {
-            result.stats[hashes.perks.plus.five[_hash]] -= 5;
+        if (!(typeof perks.plus.five[_hash] === 'undefined')) {
+            result.stats[perks.plus.five[_hash]] -= 5;
             result.stats['tot'] -= 5;
             continue;
         }
 
         //+10
-        if (!(typeof hashes.perks.plus.ten[_hash] === 'undefined')) {
-            result.stats[hashes.perks.plus.ten[_hash]] -= 10;
+        if (!(typeof perks.plus.ten[_hash] === 'undefined')) {
+            result.stats[perks.plus.ten[_hash]] -= 10;
             result.stats['tot'] -= 10;
             continue;
         }
 
         //+20
-        if (!(typeof hashes.perks.plus.twenty[_hash] === 'undefined')) {
-            result.stats[hashes.perks.plus.twenty[_hash]] -= 20;
+        if (!(typeof perks.plus.twenty[_hash] === 'undefined')) {
+            result.stats[perks.plus.twenty[_hash]] -= 20;
             result.stats['tot'] -= 20;
             continue;
         }
 
         //-5
-        if (!(typeof hashes.perks.minus.five[_hash] === 'undefined')) {
-            result.stats[hashes.perks.minus.five[_hash]] += 5;
+        if (!(typeof perks.minus.five[_hash] === 'undefined')) {
+            result.stats[perks.minus.five[_hash]] += 5;
             result.stats['tot'] += 5;
             continue;
         }
 
         //-10
-        if (!(typeof hashes.perks.minus.ten[_hash] === 'undefined')) {
-            result.stats[hashes.perks.minus.ten[_hash]] += 10;
+        if (!(typeof perks.minus.ten[_hash] === 'undefined')) {
+            result.stats[perks.minus.ten[_hash]] += 10;
             result.stats['tot'] += 10;
             continue;
         }
 
         //-20
-        if (!(typeof hashes.perks.minus.twenty[_hash] === 'undefined')) {
-            result.stats[hashes.perks.minus.twenty[_hash]] += 20;
+        if (!(typeof perks.minus.twenty[_hash] === 'undefined')) {
+            result.stats[perks.minus.twenty[_hash]] += 20;
             result.stats['tot'] += 20;
             continue;
         }
@@ -109,13 +110,13 @@ function vaultArmorSelectConditions(profileItem, instanceItem, character) {
     // Is it a pice of armor?
     if (instanceItem.primaryStat.statHash != 3897883278) return false;
     // Is item a "class-item"?
-    if (instanceItem.unlockHashesRequiredToEquip[0] == hashes.characters[character].class_item) return false;
+    if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character].class_item) return false;
     
     // Does it belong to the selected character? POSITIVE EXIT
-    if (instanceItem.unlockHashesRequiredToEquip[0] == hashes.characters[character].helmet) return true;
-    if (instanceItem.unlockHashesRequiredToEquip[0] == hashes.characters[character].gloves) return true;
-    if (instanceItem.unlockHashesRequiredToEquip[0] == hashes.characters[character].chest) return true;
-    if (instanceItem.unlockHashesRequiredToEquip[0] == hashes.characters[character].legs) return true; 
+    if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character].helmet) return true;
+    if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character].gloves) return true;
+    if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character].chest) return true;
+    if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character].legs) return true; 
 
     return false;
 }
@@ -131,19 +132,19 @@ function profileDataFilter(dataSet, character) {
     for (let i = 0; i < profileItems.length; i++) {
         if (vaultArmorSelectConditions(profileItems[i], itemInstances[profileItems[i].itemInstanceId], character)) {
             
-            const stats = itemStats[profileItems[i].itemInstanceId].stats;
-            const total = stats[hashes.stats['mob']].value + stats[hashes.stats['res']].value + stats[hashes.stats['rec']].value +
-                          stats[hashes.stats['dis']].value + stats[hashes.stats['int']].value + stats[hashes.stats['str']].value;
+            const arrayStats = itemStats[profileItems[i].itemInstanceId].stats;
+            const total = arrayStats[stats['mob']].value + arrayStats[stats['res']].value + arrayStats[stats['rec']].value +
+                          arrayStats[stats['dis']].value + arrayStats[stats['int']].value + arrayStats[stats['str']].value;
             
             var newItem = {
                 itemInstanceId: profileItems[i].itemInstanceId,
                 stats: {
-                    mob: stats[hashes.stats['mob']].value,
-                    res: stats[hashes.stats['res']].value,
-                    rec: stats[hashes.stats['rec']].value,
-                    dis: stats[hashes.stats['dis']].value,
-                    int: stats[hashes.stats['int']].value,
-                    str: stats[hashes.stats['str']].value,
+                    mob: arrayStats[stats['mob']].value,
+                    res: arrayStats[stats['res']].value,
+                    rec: arrayStats[stats['rec']].value,
+                    dis: arrayStats[stats['dis']].value,
+                    int: arrayStats[stats['int']].value,
+                    str: arrayStats[stats['str']].value,
                     tot: total
                 }
             }

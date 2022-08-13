@@ -1,5 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
-const bungie_api = require('../backend/logic/bungie-api-interface');
+const bungie_api = require('./bungie-api-interaction/bungie-api-interface');
 
 const btn = document.getElementById('redirect_button');
 const text_title = document.getElementById('status');

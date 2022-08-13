@@ -1,4 +1,4 @@
-const bungie_api = require('../../backend/logic/bungie-api-interface');
+const bungie_api = require('./bungie-api-interface');
 const btn_manual = document.getElementById('manual_redirect');
 
 btn_manual.addEventListener('click', () => {
