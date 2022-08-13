@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 
 async function bungieAPIFetch({protocol, endpoint, parameters = [], headers = [], body = []}) {
+    console.log("Arrived at Bungie-Fetch");
     var res = {};
 
     var requestOptions = {
@@ -42,7 +43,7 @@ async function bungieAPIFetch({protocol, endpoint, parameters = [], headers = []
     return res;
 }
 
-async function getAuthenticationToken(code) {
+export async function getAuthenticationToken(code) {
 
     return await bungieAPIFetch({
         protocol: 'POST',
@@ -59,7 +60,7 @@ async function getAuthenticationToken(code) {
 
 }
 
-async function getMembershipInfo(auth_token) {
+export async function getMembershipInfo(auth_token) {
 
     let tmp = await bungieAPIFetch({
         protocol: 'GET',
@@ -76,7 +77,10 @@ async function getMembershipInfo(auth_token) {
     };
 }
 
-async function getVaultArmors(auth_token, membership) {
+export async function getVaultArmors(auth_token, membership) {
+
+    console.log(`Token: ${auth_token}`);
+    console.log(`Membership: ${membership.Id}`);
     // This is the request to make:
     // /Platform/Destiny2/2/Profile/4611686018436597386/?components=102,300,304
     // This does not include weather an item is for example a leg or chest pice but can differentiate the armor
@@ -88,7 +92,7 @@ async function getVaultArmors(auth_token, membership) {
         protocol: 'GET',
         endpoint: 'Destiny2/' + membership.Type + '/Profile/' + membership.Id + '/',
         headers: [
-            'x-api-key', process.env.BUNGIE_API_KEY,
+            'x-api-key', '2d0dd70900f1496a8d4b72bc4d883252',
             'Authorization', 'Bearer ' + auth_token
         ],
         parameters: [
@@ -98,13 +102,6 @@ async function getVaultArmors(auth_token, membership) {
 
 }
 
-async function getCharacterArmor(character) {
+export async function getCharacterArmor(character) {
     //Similar request to the one before
 }
-
-module.exports = {
-    getAuthenticationToken,
-    getMembershipInfo,
-    getVaultArmors,
-    getCharacterArmor
-};
