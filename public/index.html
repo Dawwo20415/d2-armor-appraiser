@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <title>Homepage</title>
+    <style>
+        .div1 {
+            background-color: aqua;
+            width: 50%;
+            float: left;
+            border-width: 2px;
+            border-color: black;
+
+        }
+
+        .div2 {
+            background-color: azure;
+            width: 50%;
+            float: right;
+            border-width: 2px;
+            border-color: black;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -12,18 +31,22 @@
     <h1 id="status">Not Accessed</h1>
     <p id="info">Not accessed therefore no information</p>
 
-    <div style="border:1px solid black;">
-        <form id="algorithm-info-form" required>
-            <label for="character">Select character:</label><br>
-            <select name="character" id="character">
-                <option value="hunter">Hunter</option>
-                <option value="warlock">Warlock</option>
-                <option value="titan">Titan</option>
-            </select><br><br>
-    
-            <input type="submit" id="form-submit-in" name="Submit">
-    
-        </form>
+    <div class="div1"> 
+        <h1>Armor Data</h1><br>
+
+        <label for="character">Select character:</label><br>
+        <select name="character" id="character">
+            <option value="0">Character #1</option>
+            <option value="1">Character #2</option>
+            <option value="2">Character #3</option>
+        </select><br><br>
+
+        <Button type="button" id="btn-get-armor">Ottieni Armatura</Button>
+
+        <p id="armor-list">Armor list will go here</p>
+    </div>
+    <div class="div2">
+        <h1>Algorithm Data</h1>  
     </div>
     
     <button id="form-submit-btn"> Clicca qui </button>

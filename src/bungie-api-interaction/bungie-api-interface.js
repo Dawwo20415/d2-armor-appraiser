@@ -118,7 +118,7 @@ export async function getCharacterArmor(auth_token, membership, character_id) {
             'Authorization', 'Bearer ' + auth_token
         ],
         parameters: [
-            'components','102,300,302,304'
+            'components','201,205,300,302,304'
         ]
     });
 }

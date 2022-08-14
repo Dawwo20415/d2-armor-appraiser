@@ -1,4 +1,5 @@
 import { characters, stats } from './hashes/characters.js';
+import { buckets_hashes } from './hashes/buckets.js';
 import { perks } from './hashes/perks.js';
 
 /**
@@ -27,7 +28,7 @@ function adjustStatsForModifiers(item, perkList) {
 
     for (let i = 0; i < perkList.perks.length; i++) {
         //Conditions
-        _hash = perkList.perks[i].perkHash;
+        let _hash = perkList.perks[i].perkHash;
 
         //+5
         if (!(typeof perks.plus.five[_hash] === 'undefined')) {
@@ -163,14 +164,84 @@ export function profileDataFilter(dataSet, character) {
 
 //#region Character-Armor-Management
 
+function characterArmorSelectConditions(item_profile, item_instance) {
+
+    // Is item instanced?
+    if (typeof item_instance === 'undefined') return false;
+    // Is the item equippable by queried character? AKA does armor belong to character?
+    if (!item_instance.canEquip) return false;
+
+    // Is it in an inventory bucket for armor? POSITIVE EXIT
+    if (item_profile.bucketHash == buckets_hashes.helmet) return true;
+    if (item_profile.bucketHash == buckets_hashes.gauntlets) return true;
+    if (item_profile.bucketHash == buckets_hashes.chest) return true;
+    if (item_profile.bucketHash == buckets_hashes.legs) return true;
+
+    return false;
+}
+
 //Filters raw json response for Destiny2.GetCharacter query (Armor pices in character inventory)
 export function characterArmorFilter(dataSet) {
-    var filtered_dataSet;
+    let filtered_dataSet = {data: []};
+    let character_items = dataSet['Response']['inventory']['data']['items'];
+    let character_equipment = dataSet['Response']['equipment']['data']['items'];
+    let items_instances = dataSet['Response']['itemComponents']['instances']['data'];
+    let items_stats = dataSet['Response']['itemComponents']['stats']['data'];
+    let items_perks = dataSet['Response']['itemComponents']['perks']['data'];
 
-    for (let i = 0; i < dataSet['Response']['profileInventory']['data']['items'].length; i++) {
-        console.log('Item: ' + i);
+    for (let i = 0; i < character_items.length; i++) {
+        if (characterArmorSelectConditions(character_items[i], items_instances[character_items[i].itemInstanceId])) {
+            const arrayStats = items_stats[character_items[i].itemInstanceId].stats;
+            const total = arrayStats[stats['mob']].value + arrayStats[stats['res']].value + arrayStats[stats['rec']].value +
+                          arrayStats[stats['dis']].value + arrayStats[stats['int']].value + arrayStats[stats['str']].value;
+            
+            var newItem = {
+                itemInstanceId: character_items[i].itemInstanceId,
+                stats: {
+                    mob: arrayStats[stats['mob']].value,
+                    res: arrayStats[stats['res']].value,
+                    rec: arrayStats[stats['rec']].value,
+                    dis: arrayStats[stats['dis']].value,
+                    int: arrayStats[stats['int']].value,
+                    str: arrayStats[stats['str']].value,
+                    tot: total
+                }
+            }
 
+            newItem = adjustStatsForModifiers(newItem, items_perks[newItem.itemInstanceId]);
+            newItem = adjustStatsForMasterwork(newItem, items_instances[newItem.itemInstanceId]);
+            
+            filtered_dataSet.data.push(newItem);
+        }
     }
+
+    for (let i = 0; i < character_equipment.length; i++) {
+        if (characterArmorSelectConditions(character_equipment[i], items_instances[character_equipment[i].itemInstanceId])) {
+            const arrayStats = items_stats[character_equipment[i].itemInstanceId].stats;
+            const total = arrayStats[stats['mob']].value + arrayStats[stats['res']].value + arrayStats[stats['rec']].value +
+                          arrayStats[stats['dis']].value + arrayStats[stats['int']].value + arrayStats[stats['str']].value;
+            
+            var newItem = {
+                itemInstanceId: character_equipment[i].itemInstanceId,
+                stats: {
+                    mob: arrayStats[stats['mob']].value,
+                    res: arrayStats[stats['res']].value,
+                    rec: arrayStats[stats['rec']].value,
+                    dis: arrayStats[stats['dis']].value,
+                    int: arrayStats[stats['int']].value,
+                    str: arrayStats[stats['str']].value,
+                    tot: total
+                }
+            }
+
+            newItem = adjustStatsForModifiers(newItem, items_perks[newItem.itemInstanceId]);
+            newItem = adjustStatsForMasterwork(newItem, items_instances[newItem.itemInstanceId]);
+            
+            filtered_dataSet.data.push(newItem);
+        }
+    }
+
+    return filtered_dataSet;
 }
 
 
@@ -187,7 +258,7 @@ export function characterDataFilter(dataSet) {
         const char_id = Object.keys(_dataSet)[i];
 
         chars_data.characters[i] = {
-            character_id: char_id,
+            id: char_id,
             class_hash: _dataSet[char_id].classHash,
             emblem_path: _dataSet[char_id].emblemBackgroundPath,
         }

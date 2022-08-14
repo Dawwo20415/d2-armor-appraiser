@@ -1,14 +1,14 @@
 import { v4 as uuidV4 } from 'uuid';
-import { getMembershipInfo, getVaultArmors, getCharacterInfo } from './bungie-api-interaction/bungie-api-interface';
-import { characterDataFilter } from './bungie-api-interaction/armor-item-management';
+import { getMembershipInfo, getCharacterInfo, getVaultArmors, getCharacterArmor } from './bungie-api-interaction/bungie-api-interface';
+import { characterDataFilter, characterArmorFilter, createIdString } from './bungie-api-interaction/armor-item-management';
 
+//Setup Items
 const btn = document.getElementById('redirect_button');
 const text_title = document.getElementById('status');
 const text_info = document.getElementById('info');
 const btn_reset = document.getElementById('reset');
 
-const request_form = document.getElementById('form-submit-btn');
-const text_data = document.getElementById('data');
+//Applying the algorithm forms
 
 btn_reset.addEventListener('click', () => {
     localStorage.removeItem('D2AA_authState');
@@ -25,25 +25,43 @@ btn.addEventListener('click', () => {
     window.location.href = uri;
 });
 
-request_form.addEventListener('click', async () => {
+//Getting List of items Form
+const char_select = document.getElementById('character');
+const armor_submit_btn = document.getElementById('btn-get-armor');
+const text_data = document.getElementById('armor-list');
+
+
+armor_submit_btn.addEventListener('click', async () => {
     let token = await localStorage.getItem('D2AA_authorization_token');
         token = JSON.parse(token);
     let membership = await localStorage.getItem('D2AA_membership');
         membership = JSON.parse(membership);
+    let character = await localStorage.getItem('D2AA_characters');
+        character = JSON.parse(character);
 
     if (!token) {
         console.log("No data has been found for token");
+        return;
     }
 
     if (!membership) {
         console.log("No data has been found for membership");
+        return;
     }
 
-    console.log('Hello QUI');
+    if (!character) {
+        console.log("No data has been found for characters");
+        return;
+    }
+
+    character = character.characters[char_select.value];
     
-    const bungie_data = await getVaultArmors(token.access_token, membership);
+    const profile_data = await getVaultArmors(token.access_token, membership);
+    const char_data = await getCharacterArmor(token.access_token, membership, character.id);
+
+    let arr = characterArmorFilter(char_data);
     
-    text_data.innerHTML = `${JSON.stringify(bungie_data)}`;
+    text_data.innerHTML = `${createIdString(arr.data)}`;
 });
 
 async function main () {
