@@ -1,6 +1,6 @@
 import { v4 as uuidV4 } from 'uuid';
 import { getMembershipInfo, getCharacterInfo, getVaultArmors, getCharacterArmor } from './bungie-api-interaction/bungie-api-interface';
-import { characterDataFilter, characterArmorFilter, createIdString } from './bungie-api-interaction/armor-item-management';
+import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter } from './bungie-api-interaction/armor-item-management';
 
 //Setup Items
 const btn = document.getElementById('redirect_button');
@@ -59,9 +59,12 @@ armor_submit_btn.addEventListener('click', async () => {
     const profile_data = await getVaultArmors(token.access_token, membership);
     const char_data = await getCharacterArmor(token.access_token, membership, character.id);
 
-    let arr = characterArmorFilter(char_data);
+    let armor_data = characterArmorFilter(char_data);
+        armor_data = profileDataFilter(profile_data, character.class_hash, armor_data);
+
+    sessionStorage.setItem('D2AA_armor_items_list', armor_data);
     
-    text_data.innerHTML = `${createIdString(arr.data)}`;
+    text_data.innerHTML = `${createIdString(armor_data.data)}`;
 });
 
 async function main () {

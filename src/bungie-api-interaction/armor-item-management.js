@@ -123,8 +123,8 @@ function vaultArmorSelectConditions(profileItem, instanceItem, character) {
 }
 
 //Filters raw json response for Destiny2.GetProfile query (Armor pices in the vault)
-export function profileDataFilter(dataSet, character) {
-    var filtered_dataSet = { data: []};
+export function profileDataFilter(dataSet, character, filtered_dataSet = { data: []}) {
+
     const profileItems = dataSet['Response']['profileInventory']['data']['items'];
     const itemInstances = dataSet['Response']['itemComponents']['instances']['data'];
     const itemStats = dataSet['Response']['itemComponents']['stats']['data'];
@@ -181,8 +181,7 @@ function characterArmorSelectConditions(item_profile, item_instance) {
 }
 
 //Filters raw json response for Destiny2.GetCharacter query (Armor pices in character inventory)
-export function characterArmorFilter(dataSet) {
-    let filtered_dataSet = {data: []};
+export function characterArmorFilter(dataSet, filtered_dataSet = { data: []}) {
     let character_items = dataSet['Response']['inventory']['data']['items'];
     let character_equipment = dataSet['Response']['equipment']['data']['items'];
     let items_instances = dataSet['Response']['itemComponents']['instances']['data'];

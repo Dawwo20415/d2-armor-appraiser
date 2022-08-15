@@ -1,19 +1,22 @@
 export const characters = {
-    hunter: {
+    // Hunter
+    "671679327": {
         helmet: "3720682193",
         gloves: "201769094",
         chest: "1302045394",
         legs: "318828292",
         class_item: "218917"
     }, 
-    warlock: {
+    // Warlock
+    "2271682572": {
         helmet: "2726639978",
         gloves: "1368285237",
         chest: "1810145619",
         legs: "3485532491",
         class_item: "2844913036"
     }, 
-    titan: {
+    // Titan
+    "3655393761": {
         helmet: "705784709",
         gloves: "804231650",
         chest: "3972190350",
