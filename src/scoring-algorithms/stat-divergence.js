@@ -1,7 +1,7 @@
 import { stats_enum } from '../bungie-api-interaction/hashes/characters';
 
 //Main Algorithm
-function statDivergence_v1(filteredDataSet, weight) {
+export function statDivergence_v1(filteredDataSet, weight) {
     var scoredDataSet = filteredDataSet;
     var total_weight = 0;
     for (let i = 0; i < weight.length; i++) {
@@ -42,8 +42,4 @@ function statDivergence_v1(filteredDataSet, weight) {
     }
 
     return scoredDataSet;
-}
-
-module.exports = {
-    statDivergence_v1
 }

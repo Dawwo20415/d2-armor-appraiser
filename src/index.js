@@ -1,14 +1,13 @@
 import { v4 as uuidV4 } from 'uuid';
 import { getMembershipInfo, getCharacterInfo, getVaultArmors, getCharacterArmor } from './bungie-api-interaction/bungie-api-interface';
-import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter } from './bungie-api-interaction/armor-item-management';
+import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter, compareByScore, filterByQuantity } from './bungie-api-interaction/armor-item-management';
+import { statDivergence_v1 } from './scoring-algorithms/stat-divergence';
 
 //Setup Items
 const btn = document.getElementById('redirect_button');
 const text_title = document.getElementById('status');
 const text_info = document.getElementById('info');
 const btn_reset = document.getElementById('reset');
-
-//Applying the algorithm forms
 
 btn_reset.addEventListener('click', () => {
     localStorage.removeItem('D2AA_authState');
@@ -62,9 +61,37 @@ armor_submit_btn.addEventListener('click', async () => {
     let armor_data = characterArmorFilter(char_data);
         armor_data = profileDataFilter(profile_data, character.class_hash, armor_data);
 
-    sessionStorage.setItem('D2AA_armor_items_list', armor_data);
+    sessionStorage.setItem('D2AA_armor_items_list', JSON.stringify(armor_data));
     
     text_data.innerHTML = `${createIdString(armor_data.data)}`;
+});
+
+//Applying the algorithm forms
+const mob_value = document.getElementById('mob');
+const res_value = document.getElementById('res');
+const rec_value = document.getElementById('rec');
+const dis_value = document.getElementById('dis');
+const int_value = document.getElementById('int');
+const str_value = document.getElementById('str');
+const treshold_value = document.getElementById('treshold');
+const apply_btn = document.getElementById('submit-btn');
+const result_text = document.getElementById('data');
+
+apply_btn.addEventListener('click', async () => {
+    const weight = [mob_value.value, res_value.value, rec_value.value, dis_value.value, int_value.value, str_value.value];
+
+    let data_Set = sessionStorage.getItem('D2AA_armor_items_list');
+        data_Set = JSON.parse(data_Set);
+        data_Set = statDivergence_v1(data_Set, weight);
+
+    data_Set.data.sort(compareByScore);
+
+    sessionStorage.setItem('D2AA_armor_items_list', JSON.stringify(data_Set));
+
+    let armor_to_delete = filterByQuantity(data_Set, treshold_value.value / 100);
+
+    result_text.innerHTML = `${createIdString(armor_to_delete.data)}`;
+
 });
 
 async function main () {
