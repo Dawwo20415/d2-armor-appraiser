@@ -1,3 +1,4 @@
+import { getUUIDState, storeAuthenticationToken } from '../browser/storage-interface';
 const bungie_api = require('./bungie-api-interface');
 const btn_manual = document.getElementById('manual_redirect');
 
@@ -15,7 +16,7 @@ async function handleAuthReturn() {
         return;
     }
 
-    const browserAuthState = localStorage.getItem('D2AA_authState');
+    const browserAuthState = getUUIDState();
     if (state !== browserAuthState) {
         console.log("local state doesn't confirm one recieved from bungie");
         if (!browserAuthState || browserAuthState.length === 0) {
@@ -25,10 +26,7 @@ async function handleAuthReturn() {
     }
 
     let token = await bungie_api.getAuthenticationToken(code);
-    console.log(`Print of Token got from fetch: ${token}`);
-    await localStorage.setItem('D2AA_authorization_token', JSON.stringify(token));
-
-    console.log('Log Setted');
+    storeAuthenticationToken(token);
 
     window.location.href = '/';
 }

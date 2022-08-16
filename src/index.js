@@ -1,4 +1,5 @@
 import { v4 as uuidV4 } from 'uuid';
+import { clearStorage, storeUUIDState, storeItems, storeMembership, storeCharacters, getAuthenticationToken, getMembership, getCharacter, getItems } from './browser/storage-interface';
 import { getMembershipInfo, getCharacterInfo, getVaultArmors, getCharacterArmor } from './bungie-api-interaction/bungie-api-interface';
 import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter, compareByScore, filterByQuantity } from './bungie-api-interaction/armor-item-management';
 import { statDivergence_v1 } from './scoring-algorithms/stat-divergence';
@@ -10,16 +11,14 @@ const text_info = document.getElementById('info');
 const btn_reset = document.getElementById('reset');
 
 btn_reset.addEventListener('click', () => {
-    localStorage.removeItem('D2AA_authState');
-    localStorage.removeItem('D2AA_authorization_token');
+    clearStorage();
     window.location.reload();
 });
 
 btn.addEventListener('click', () => {
     const state = uuidV4();
-        localStorage.setItem('D2AA_authState', state);
+    storeUUIDState(state);
 
-    console.log("Bottone Premuto");
     const uri = `https://www.bungie.net/en/oauth/authorize?client_id=40726&response_type=code&state=${state}`;
     window.location.href = uri;
 });
@@ -31,12 +30,9 @@ const text_data = document.getElementById('armor-list');
 
 
 armor_submit_btn.addEventListener('click', async () => {
-    let token = await localStorage.getItem('D2AA_authorization_token');
-        token = JSON.parse(token);
-    let membership = await localStorage.getItem('D2AA_membership');
-        membership = JSON.parse(membership);
-    let character = await localStorage.getItem('D2AA_characters');
-        character = JSON.parse(character);
+    let token = getAuthenticationToken();
+    let membership = getMembership();
+    let character = getCharacter(char_select.value);
 
     if (!token) {
         console.log("No data has been found for token");
@@ -52,8 +48,6 @@ armor_submit_btn.addEventListener('click', async () => {
         console.log("No data has been found for characters");
         return;
     }
-
-    character = character.characters[char_select.value];
     
     const profile_data = await getVaultArmors(token.access_token, membership);
     const char_data = await getCharacterArmor(token.access_token, membership, character.id);
@@ -61,7 +55,7 @@ armor_submit_btn.addEventListener('click', async () => {
     let armor_data = characterArmorFilter(char_data);
         armor_data = profileDataFilter(profile_data, character.class_hash, armor_data);
 
-    sessionStorage.setItem('D2AA_armor_items_list', JSON.stringify(armor_data));
+    storeItems(armor_data);
     
     text_data.innerHTML = `${createIdString(armor_data.data)}`;
 });
@@ -80,13 +74,12 @@ const result_text = document.getElementById('data');
 apply_btn.addEventListener('click', async () => {
     const weight = [mob_value.value, res_value.value, rec_value.value, dis_value.value, int_value.value, str_value.value];
 
-    let data_Set = sessionStorage.getItem('D2AA_armor_items_list');
-        data_Set = JSON.parse(data_Set);
+    let data_Set = getItems();
         data_Set = statDivergence_v1(data_Set, weight);
 
     data_Set.data.sort(compareByScore);
 
-    sessionStorage.setItem('D2AA_armor_items_list', JSON.stringify(data_Set));
+    storeItems(data_Set);
 
     let armor_to_delete = filterByQuantity(data_Set, treshold_value.value / 100);
 
@@ -96,17 +89,18 @@ apply_btn.addEventListener('click', async () => {
 
 async function main () {
 
-    const authToken = localStorage.getItem('D2AA_authorization_token');
+    const authToken = getAuthenticationToken();
     if (!authToken)
         return;
 
+    console.log(authToken);
     text_title.innerHTML = "Access Succeded!";
-    const membership = await getMembershipInfo(JSON.parse(authToken).access_token);
-    let characters = await getCharacterInfo(JSON.parse(authToken).access_token, membership);
+    const membership = await getMembershipInfo(authToken.access_token);
+    let characters = await getCharacterInfo(authToken.access_token, membership);
         characters = characterDataFilter(characters);
 
-    await localStorage.setItem('D2AA_membership', JSON.stringify(membership));
-    await localStorage.setItem('D2AA_characters', JSON.stringify(characters));
+    storeMembership(membership);
+    storeCharacters(characters);
 
     text_info.innerHTML = `${JSON.stringify(membership)}`;
 

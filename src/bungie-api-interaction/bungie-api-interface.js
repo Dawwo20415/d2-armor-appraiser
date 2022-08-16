@@ -43,6 +43,7 @@ async function bungieAPIFetch({protocol, endpoint, parameters = [], headers = []
     return res;
 }
 
+//TODO rename all these function substituying "get" with "query" 
 export async function getAuthenticationToken(code) {
 
     return await bungieAPIFetch({
