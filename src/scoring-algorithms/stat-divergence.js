@@ -1,4 +1,4 @@
-import { stats_enum } from '../bungie-api-interaction/hashes/characters';
+import { stats_enum } from '@bungie-api/hashes/characters';
 
 //Main Algorithm
 export function statDivergence_v1(filteredDataSet, weight) {

@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "paths": {
+            "@browser/*":["browser/*"],
+            "@bungie-api/*":["bungie-api-interaction/*"],
+            "@algorithms/*":["scoring-algorithms/*"]
+        }
+    }
+}

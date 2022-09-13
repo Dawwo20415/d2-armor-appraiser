@@ -1,8 +1,8 @@
 import { v4 as uuidV4 } from 'uuid';
-import { clearStorage, storeUUIDState, storeItems, storeMembership, storeCharacters, getAuthenticationToken, getMembership, getCharacter, getItems } from './browser/storage-interface';
-import { getMembershipInfo, getCharacterInfo, getVaultArmors, getCharacterArmor } from './bungie-api-interaction/bungie-api-interface';
-import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter, compareByScore, filterByQuantity } from './bungie-api-interaction/armor-item-management';
-import { statDivergence_v1 } from './scoring-algorithms/stat-divergence';
+import { clearStorage, storeUUIDState, storeItems, storeMembership, storeCharacters, getAuthenticationToken, getMembership, getCharacter, getItems } from '@browser/storage-interface';
+import { getMembershipInfo, getCharacterInfo, getVaultArmors, getCharacterArmor } from '@bungie-api/bungie-api-interface';
+import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter, compareByScore, filterByQuantity } from '@bungie-api/armor-item-management';
+import { statDivergence_v1 } from '@algorithms/stat-divergence';
 
 //Setup Items
 const btn = document.getElementById('redirect_button');
