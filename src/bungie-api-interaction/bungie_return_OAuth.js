@@ -1,4 +1,4 @@
-import { getUUIDState, storeAuthenticationToken } from '@browser/storage-interface';
+import { getUUIDState, storeAuthenticationToken } from '../browser/storage-interface';
 const bungie_api = require('./bungie-api-interface');
 const btn_manual = document.getElementById('manual_redirect');
 
