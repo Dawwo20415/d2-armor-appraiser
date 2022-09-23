@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { lastValueFrom } from 'rxjs'
 import { v4 as uuidV4 } from 'uuid';
-import { clearStorage, storeUUIDState, storeItems, storeCharacters, getAuthenticationToken } from '@Ibrowser/storage-interface';
+import { clearStorage, storeUUIDState, storeItems, storeCharacters, getAuthenticationToken, storeMembership } from '@Ibrowser/storage-interface';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
-import { getMembership, getCharacter } from '@Ibrowser/storage-interface-second';
-import { characterDataFilter, characterArmorFilter, createIdString, profileDataFilter, compareByScore, filterByQuantity } from '@Ibungie/armor-item-management';
-import { ThisReceiver } from '@angular/compiler';
-import { Character, Membership } from '@dataTypes/bungie-data-interfaces';
+import { getMembership, getCharacter } from '@scripts/browser/storage-interface';
+import { Character, Membership } from '@dataTypes/storage-data.module';
+import { parseMembershipData } from '@scripts/browser/bungie-data-parsers';
   
 
 @Component({
@@ -34,15 +34,20 @@ export class PageTemplateComponent implements OnInit {
         return;
 
     this.status = "Access Succeded!";
-    await this.bungie_api.setMembershipInfo(authToken.access_token);
-    let membership = getMembership();
-    await this.bungie_api.setCharacterInfo(authToken.access_token, membership);
+    
+    const membership$ = this.bungie_api.getMembershipInfo(authToken.access_token);
+    const membership = await lastValueFrom(membership$);
+    storeMembership(membership);
 
-    this.info = `${JSON.stringify(membership)}`;
+    const characters$ = this.bungie_api.getCharacterInfo(authToken.access_token, parseMembershipData(membership));
+    storeCharacters(await lastValueFrom(characters$));
+
+    this.info = `${JSON.stringify(parseMembershipData(membership))}`;
   }
 
   redirectToBungieLogin() {
-    const state = uuidV4();
+    const state: string = uuidV4();
+    console.log(state);
     storeUUIDState(state);
 
     const uri = `https://www.bungie.net/en/oauth/authorize?client_id=40726&response_type=code&state=${state}`;
@@ -74,6 +79,7 @@ export class PageTemplateComponent implements OnInit {
         return;
     }
     
+    /*
     const profile_data = this.bungie_api.getVaultArmors(token.access_token, membership);
     const char_data = this.bungie_api.getCharacterArmors(token.access_token, membership, character.Id);
 
@@ -83,5 +89,6 @@ export class PageTemplateComponent implements OnInit {
     storeItems(armor_data);
     
     this.armor = `${createIdString(armor_data.data)}`;
+    */
   }
 }

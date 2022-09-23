@@ -2,28 +2,27 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import { storeAuthenticationToken, storeCharacters, storeMembership } from '@Ibrowser/storage-interface'
-import { CharacterResponse } from '@dataTypes/character-response.model';
 import { characterDataFilter } from '@Ibungie/armor-item-management';
-import { Membership } from '@dataTypes/bungie-data-interfaces';
+import { BNG_Response, BNG_AuthToken } from '@dataTypes/bungie-response-data.module'
+import { Membership } from '@dataTypes/storage-data.module';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BungieApiInterfaceService {
 
-  constructor(private http: HttpClient) { }
+  //private standard_headers: HttpHeaders;
+  readonly BASE_URL = 'https://www.bungie.net/platform/';
 
-  private bungie_API_post_request(endpoint: string, options: {body?: URLSearchParams, parameters?: HttpParams, headers?: HttpHeaders}) {
-    
-    return this.http.post('https://www.bungie.net/platform/' + endpoint, options.body, {params: options.parameters, headers: options.headers});
+  constructor(private http: HttpClient) { 
+    /*
+    this.standard_headers = new HttpHeaders()
+      .set('x-api-key', "2d0dd70900f1496a8d4b72bc4d883252")
+      .set('Authorization', 'Bearer ' + auth_token); */
   }
 
-  private bungie_API_get_request(endpoint: string, options: {parameters?: HttpParams, headers?: HttpHeaders}) {
-    
-    return this.http.get<any>('https://www.bungie.net/platform/' + endpoint, {params: options.parameters, headers: options.headers});
-  }
-
-  async setAuthToken(code: string) {
+  public getAuthToken(code: string) {
     let body = new URLSearchParams();
       body.set('grant_type', 'authorization_code');
       body.set('code', code);
@@ -32,27 +31,20 @@ export class BungieApiInterfaceService {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
-    this.bungie_API_post_request('app/oauth/token/', {body: body, parameters: new HttpParams(), headers: headers}).subscribe((res) => {
-      storeAuthenticationToken(res);
-    });
+    return this.http.post<BNG_AuthToken>( this.BASE_URL + 'app/oauth/token/', body, { headers: headers})
+      .pipe(map(response => response));
   }
 
-  async setMembershipInfo(auth_token: string) {
+  public getMembershipInfo(auth_token: string) {
     let headers = new HttpHeaders()
       .set('x-api-key', "2d0dd70900f1496a8d4b72bc4d883252")
       .set('Authorization', 'Bearer ' + auth_token);
     
-    this.bungie_API_get_request('User/GetMembershipsForCurrentUser/', {headers: headers}).subscribe((res) => {
-      const tmp = JSON.parse(JSON.stringify(res));
-      
-      storeMembership({
-        Id: tmp['Response']['destinyMemberships'][0]['membershipId'],
-        Type: tmp['Response']['destinyMemberships'][0]['membershipType']
-      });
-    });
+    return this.http.get<BNG_Response>(this.BASE_URL + 'User/GetMembershipsForCurrentUser/', { headers: headers})
+      .pipe(map( response => response));
   }
 
-  setCharacterInfo(auth_token: string, membership: Membership) {
+  public getCharacterInfo(auth_token: string, membership: Membership) {
     let headers = new HttpHeaders()
       .set('x-api-key', '2d0dd70900f1496a8d4b72bc4d883252')
       .set('Authorization', 'Bearer ' + auth_token);
@@ -60,16 +52,11 @@ export class BungieApiInterfaceService {
     let parameters = new HttpParams()
       .set('components','200');
     
-    this.bungie_API_get_request(`Destiny2/${membership.Type}/Profile/${membership.Id}/`, {
-      headers: headers,
-      parameters: parameters
-    }).subscribe((res) => {
-      const tmp = JSON.parse(JSON.stringify(res));
-      storeCharacters(characterDataFilter(tmp));
-    });
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters})
+      .pipe(map( response => response));
   }
 
-  getVaultArmors(auth_token: string, membership: Membership) {
+  public getVaultArmors(auth_token: string, membership: Membership) {
     let headers = new HttpHeaders()
       .set('x-api-key', '2d0dd70900f1496a8d4b72bc4d883252')
       .set('Authorization', 'Bearer ' + auth_token);
@@ -77,15 +64,11 @@ export class BungieApiInterfaceService {
     let parameters = new HttpParams()
       .set('components','102,300,302,304');
 
-    this.bungie_API_get_request(`Destiny2/${membership.Type}/Profile/${membership.Id}/`, {
-      headers: headers,
-      parameters: parameters
-    }).subscribe((res) => {
-      return res;
-    });
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters})
+      .pipe(map( response => response));
   }
 
-  getCharacterArmors(auth_token: string, membership: Membership, character_id: string) {
+  public getCharacterArmors(auth_token: string, membership: Membership, character_id: string) {
     let headers = new HttpHeaders()
       .set('x-api-key', '2d0dd70900f1496a8d4b72bc4d883252')
       .set('Authorization', 'Bearer ' + auth_token);
@@ -93,11 +76,7 @@ export class BungieApiInterfaceService {
     let parameters = new HttpParams()
       .set('components','201,205,300,302,304');
     
-    this.bungie_API_get_request(`Destiny2/${membership.Type}/Profile/${membership.Id}/Character/${character_id}/`, {
-      headers: headers,
-      parameters: parameters
-    }).subscribe((res) => {
-      return res;
-    });
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/Character/${character_id}/`, { headers: headers, params: parameters})
+      .pipe(map( response => response));
   }
 }

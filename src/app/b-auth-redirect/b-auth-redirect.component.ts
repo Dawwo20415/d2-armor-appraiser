@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service'
-import { getUUIDState } from '@Ibrowser/storage-interface.js';
 import { Router } from '@angular/router';
+import { lastValueFrom } from 'rxjs'
+import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service'
+import { getUUIDState, storeAuthenticationToken } from '@Ibrowser/storage-interface';
+
 
 @Component({
   selector: 'app-b-auth-redirect',
@@ -15,7 +17,7 @@ export class BAuthRedirectComponent implements OnInit {
   async ngOnInit() {
     const query_params = new URL(window.location.href).searchParams;
     const code = query_params.get('code');
-    const state = query_params.get('state');
+    const state: string | null = query_params.get('state');
 
     if (!code?.length) {
         console.log("No authorization code has been recieved from bungie");
@@ -23,20 +25,21 @@ export class BAuthRedirectComponent implements OnInit {
     }
 
     const browserAuthState = getUUIDState();
-    if (state !== browserAuthState) {
-        console.log("local state doesn't confirm one recieved from bungie");
+    if (state != browserAuthState) {
+        console.log("local state doesn't match one recieved from bungie");
         if (!browserAuthState || browserAuthState.length === 0) {
             console.log("In particular no state value is stored locally");
         }
         return;
     }
 
-    await this.bungie_api.setAuthToken(code);
+    const auth_token$ = this.bungie_api.getAuthToken(code);
+    storeAuthenticationToken(await lastValueFrom(auth_token$));
 
     this.router.navigate(['/']);
   }
 
   manualRedirect() {
-    window.location.href = '/';
+    this.router.navigate(['/']);
   }
 }
