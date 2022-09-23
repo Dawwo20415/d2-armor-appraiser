@@ -216,7 +216,8 @@ function characterArmorSelectConditions(item_profile: any, item_instance: any) {
   // Is item instanced?
   if (typeof item_instance === 'undefined') return false;
   // Is the item equippable by queried character? AKA does armor belong to character?
-  if (!item_instance.canEquip) return false;
+  // With a special case for when character has already an exotic equipped an cannot equip others
+  if (!item_instance.canEquip && item_instance.cannotEquipReason != 2) return false;
 
   // Is it in an inventory bucket for armor? POSITIVE EXIT
   if (item_profile.bucketHash == buckets_hashes.helmet) return true;
