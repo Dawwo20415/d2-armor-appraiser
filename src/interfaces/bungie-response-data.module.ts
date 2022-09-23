@@ -1,5 +1,5 @@
 interface BNG_object {
-    data: object,
+    data: any,
     privacy: number
 }
 
@@ -39,11 +39,14 @@ export interface BNG_VaultBucketData {
 }
 
 export interface BNG_CharBucketData {
-    characterInventories: BNG_object,
-    characterEquipment: BNG_object,
+    inventory: BNG_object,
+    equipment: BNG_object,
     itemComponents: {
         instances: BNG_object,
         stats: BNG_object,
+        perks: BNG_object
+    },
+    uninstancedItemComponents: {
         perks: BNG_object
     }
 }

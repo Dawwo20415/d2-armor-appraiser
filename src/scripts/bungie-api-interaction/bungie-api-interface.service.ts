@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { storeAuthenticationToken, storeCharacters, storeMembership } from '@Ibrowser/storage-interface'
-import { characterDataFilter } from '@Ibungie/armor-item-management';
 import { BNG_Response, BNG_AuthToken } from '@dataTypes/bungie-response-data.module'
 import { Membership } from '@dataTypes/storage-data.module';
 import { map } from 'rxjs';

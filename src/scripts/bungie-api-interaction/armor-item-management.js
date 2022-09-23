@@ -2,22 +2,6 @@ import { characters, stats } from './hashes/characters.js';
 import { buckets_hashes } from './hashes/buckets.js';
 import { perks } from './hashes/perks.js';
 
-/**
- * filtered dataset structure
- * {[
- *  itemInstanceId: "6917529466170785318"
- *  stats: {
- *      mob: 7
- *      res: 7
- *      rec: 7
- *      dis: 7
- *      int: 7
- *      str: 7
- *      tot: 42
- *  },
- *  score: 356.08957447
- * ]}
- */
 
 //#region General-Armor-Management
 

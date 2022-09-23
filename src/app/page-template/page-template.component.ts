@@ -5,7 +5,7 @@ import { clearStorage, storeUUIDState, storeItems, storeCharacters, getAuthentic
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
 import { getMembership, getCharacter } from '@scripts/browser/storage-interface';
 import { Character, Membership } from '@dataTypes/storage-data.module';
-import { parseMembershipData } from '@scripts/browser/bungie-data-parsers';
+import { createIdString, parseProfileArmor, parseCharacterArmor, parseMembershipData } from '@scripts/browser/bungie-data-parsers';
   
 
 @Component({
@@ -79,16 +79,18 @@ export class PageTemplateComponent implements OnInit {
         return;
     }
     
-    /*
-    const profile_data = this.bungie_api.getVaultArmors(token.access_token, membership);
-    const char_data = this.bungie_api.getCharacterArmors(token.access_token, membership, character.Id);
+    
+    const profile_data$ = this.bungie_api.getVaultArmors(token.access_token, membership);
+    const profile_data = await lastValueFrom(profile_data$);
+    const char_data$ = this.bungie_api.getCharacterArmors(token.access_token, membership, character.Id);
+    const char_data = await lastValueFrom(char_data$);
 
-    let armor_data = characterArmorFilter(char_data);
-        armor_data = profileDataFilter(profile_data, character.class_hash, armor_data);
+    let armor_data = parseCharacterArmor(char_data);
+        armor_data = parseProfileArmor(profile_data, character.class_hash, armor_data);
 
     storeItems(armor_data);
     
-    this.armor = `${createIdString(armor_data.data)}`;
-    */
+    this.armor = `${createIdString(armor_data)}`;
+    
   }
 }
