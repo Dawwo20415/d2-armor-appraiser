@@ -23,21 +23,27 @@
 <div class="div2">
     <h1>Algorithm Data</h1>  
 
-    <label for="mob">Mobility</label>
-    <input type="number" id="mob" name="mobility" min="1" max="7"><br>
-    <label for="res">Resilience</label>
-    <input type="number" id="res" name="resilience" min="1" max="7"><br>
-    <label for="rec">Recovery</label>
-    <input type="number" id="rec" name="recovery" min="1" max="7"><br>
-    <label for="dis">Discipline</label>
-    <input type="number" id="dis" name="discipline" min="1" max="7"><br>
-    <label for="int">Intellect</label>
-    <input type="number" id="int" name="Intellect" min="1" max="7"><br>
-    <label for="str">Strength</label>
-    <input type="number" id="str" name="strength" min="1" max="7"><br>
-    <label for="treshold">Treshold: </label>
-    <input type="number" id="treshold" name="treshold" min="1" max="100"><br>
+    <form [formGroup]="algorithmDataForm" (submit)="applyAlgorithm()">
+        <label for="mob">Mobility</label>
+        <input type="number" min="1" max="7" placeholder="mob" formControlName="mob"><br>
+        <label for="res">Resilience</label>
+        <input type="number" min="1" max="7" placeholder="res" formControlName="res"><br>
+        <label for="rec">Recovery</label>
+        <input type="number" min="1" max="7" placeholder="rec" formControlName="rec"><br>
+        <label for="dis">Discipline</label>
+        <input type="number" min="1" max="7" placeholder="dis" formControlName="dis"><br>
+        <label for="int">Intellect</label>
+        <input type="number" min="1" max="7" placeholder="int" formControlName="int"><br>
+        <label for="str">Strength</label>
+        <input type="number" min="1" max="7" placeholder="str" formControlName="str"><br>
 
-    <button id="submit-btn"> Clicca qui </button>
+        <h5> This is a percentage value between 0 and 100 </h5>
+
+        <label for="treshold">Treshold: </label>
+        <input type="number" min="1" max="100" placeholder="treshold" formControlName="treshold"><br>
+
+        <button type="submit"> Clicca qui </button>
+    </form>
+    
     <p id="data">{{ post_algorithm }}</p>
 </div>
