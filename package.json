@@ -1,17 +1,20 @@
 {
   "name": "d2-armor-appraiser",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "description": "Software to evaluate armor items in the game Destiny 2",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "gh-build": "ng build --base-href \"https://dawwo20415.github.io/d2-armor-appraiser/\" && ngh --dir dist/d2-armor-appraiser",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "gh-pages-deploy": "gh-pages -d dist"
   },
   "private": true,
   "author": "Dawwo-15",
   "license": "MIT",
+  "homepage": "https://dawwo20415.github.io/d2-armor-appraiser",
   "dependencies": {
     "@angular/animations": "^14.2.0",
     "@angular/common": "^14.2.0",
@@ -35,6 +38,7 @@
     "@types/jasmine": "~4.0.0",
     "@types/node": "^16.11.41",
     "dotenv": "^16.0.1",
+    "gh-pages": "^4.0.0",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
