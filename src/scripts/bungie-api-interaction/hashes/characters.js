@@ -40,11 +40,4 @@ export const stats = {
     str: "4244567218"
 }
 
-export const stats_enum = {
-    0 : 'mob',
-    1 : 'res',
-    2 : 'rec',
-    3 : 'dis',
-    4 : 'int',
-    5 : 'str'
-}
+export const stats_enum = ['mob','res','rec','dis','int','str'];

@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms'
 import { lastValueFrom } from 'rxjs'
 import { v4 as uuidV4 } from 'uuid';
-import { clearStorage, storeUUIDState, storeItems, storeCharacters, getAuthenticationToken, storeMembership } from '@Ibrowser/storage-interface';
+import { clearStorage, storeUUIDState, storeItems, storeCharacters, getAuthenticationToken, storeMembership, getItems } from '@Ibrowser/storage-interface';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
 import { getMembership, getCharacter } from '@scripts/browser/storage-interface';
-import { Character, Membership } from '@dataTypes/storage-data.module';
-import { createIdString, parseProfileArmor, parseCharacterArmor, parseMembershipData } from '@scripts/browser/bungie-data-parsers';
+import { ArmorItem, Character, Membership } from '@dataTypes/storage-data.module';
+import { createIdString, parseProfileArmor, parseCharacterArmor, parseMembershipData, filterByQuantity } from '@scripts/browser/bungie-data-parsers';
+import { statDivergence_v1 } from '@scripts/scoring-algorithms/stat-divergence';
+import { compareByScore } from '@scripts/bungie-api-interaction/armor-item-management';
   
 
 @Component({
@@ -111,6 +113,13 @@ export class PageTemplateComponent implements OnInit {
   public applyAlgorithm() {
     const formValue = this.algorithmDataForm.value;
 
-    this.post_algorithm = JSON.stringify(formValue);
+    const weight: Array<number> = [formValue.mob, formValue.res,formValue.rec,formValue.dis,formValue.int,formValue.str];
+
+    let dataSet: ArmorItem[] = getItems();
+      dataSet = statDivergence_v1(dataSet, weight);
+      dataSet.sort(compareByScore);
+
+    let armor_to_delete: ArmorItem[] = filterByQuantity(dataSet, formValue.treshold / 100);
+    this.post_algorithm = `not:inloadout and (${createIdString(armor_to_delete)})`;
   }
 }

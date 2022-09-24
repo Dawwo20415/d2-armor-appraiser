@@ -134,6 +134,18 @@ export function parseProfileArmor(dataSet:BNG_Response, character: string, filte
   return filtered_dataSet;
 }
 
+export function filterByQuantity(dataSet: ArmorItem[], treshold: number): ArmorItem[] {
+  var newDataSet: ArmorItem[] = [];
+
+  const quantity = dataSet.length - Math.trunc(dataSet.length * treshold);
+
+  for (let i = quantity; i < dataSet.length; i++) {
+      newDataSet.push(dataSet[i]);
+  }
+  
+  return newDataSet;
+}
+
 // Unexported Functions
 
 function adjustStatsForModifiers(item: ArmorItem, perkList: any) {
