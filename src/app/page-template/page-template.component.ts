@@ -23,7 +23,9 @@ export class PageTemplateComponent implements OnInit {
   info: string;
 
   armor: string;
+  armor_quantity: number;
   post_algorithm: string;
+  algorithm_quantity: number;
 
   algorithmDataForm: FormGroup;
 
@@ -31,7 +33,9 @@ export class PageTemplateComponent implements OnInit {
     this.status = "Not accessed";
     this.info = "No info";
     this.armor = "Here armor data will be put after query";
+    this.armor_quantity = 0;
     this.post_algorithm = "Here armor data will be put after algorithm";
+    this.algorithm_quantity = 0;
 
     this.algorithmDataForm = this.fb.group({
       mob: 3,
@@ -109,6 +113,7 @@ export class PageTemplateComponent implements OnInit {
     storeItems(armor_data);
     
     this.armor = `${createIdString(armor_data)}`;
+    this.armor_quantity = armor_data.length;
     
   }
 
@@ -123,5 +128,6 @@ export class PageTemplateComponent implements OnInit {
 
     let armor_to_delete: ArmorItem[] = filterByQuantity(dataSet, formValue.treshold / 100);
     this.post_algorithm = `not:inloadout and (${createIdString(armor_to_delete)})`;
+    this.algorithm_quantity = armor_to_delete.length;
   }
 }

@@ -17,8 +17,8 @@
     </select><br><br>
 
     <Button (click)="obtainArmorString(character.value)">Ottieni Armatura</Button>
-
-    <p id="armor-list">{{ armor }}</p>
+    <p>Number of Armor pices: {{ armor_quantity }}</p>
+    <p>{{ armor }}</p>
 </div>
 <div class="div2">
     <h1>Algorithm Data</h1>  
@@ -45,5 +45,6 @@
         <button type="submit"> Clicca qui </button>
     </form>
     
-    <p id="data">{{ post_algorithm }}</p>
+    <p>Number of Armor pices selected by the algorithm: {{ algorithm_quantity }}</p>
+    <p>{{ post_algorithm }}</p>
 </div>
