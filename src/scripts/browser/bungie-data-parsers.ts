@@ -275,3 +275,14 @@ export function createIdString (data: ArmorItem[]) {
 
   return result;
 }
+
+
+export function compareByScore(a: ArmorItem, b: ArmorItem) {
+  if (a.score < b.score) {
+      return 1;
+  } else if (a.score >= b.score) {
+      return -1;
+  } else {
+      return 0;
+  }
+}

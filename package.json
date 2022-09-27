@@ -4,7 +4,7 @@
   "description": "Software to evaluate armor items in the game Destiny 2",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --configuration=development",
     "build": "ng build",
     "gh-build": "ng build --base-href \"https://dawwo20415.github.io/d2-armor-appraiser/\" && ngh --dir dist/d2-armor-appraiser",
     "watch": "ng build --watch --configuration development",

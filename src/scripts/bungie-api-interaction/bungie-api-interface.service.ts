@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BNG_Response, BNG_AuthToken } from '@dataTypes/bungie-response-data.module'
 import { Membership } from '@dataTypes/storage-data.module';
 import { map } from 'rxjs';
+import { environment } from 'environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -13,18 +14,13 @@ export class BungieApiInterfaceService {
   //private standard_headers: HttpHeaders;
   readonly BASE_URL = 'https://www.bungie.net/platform/';
 
-  constructor(private http: HttpClient) { 
-    /*
-    this.standard_headers = new HttpHeaders()
-      .set('x-api-key', "2d0dd70900f1496a8d4b72bc4d883252")
-      .set('Authorization', 'Bearer ' + auth_token); */
-  }
+  constructor(private http: HttpClient) {}
 
   public getAuthToken(code: string) {
     let body = new URLSearchParams();
       body.set('grant_type', 'authorization_code');
       body.set('code', code);
-      body.set('client_id', '40726');
+      body.set('client_id', environment.BUNGIE_CLIENT_ID);
 
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded');
@@ -35,7 +31,7 @@ export class BungieApiInterfaceService {
 
   public getMembershipInfo(auth_token: string) {
     let headers = new HttpHeaders()
-      .set('x-api-key', "2d0dd70900f1496a8d4b72bc4d883252")
+      .set('x-api-key', environment.BUNGIE_API_KEY)
       .set('Authorization', 'Bearer ' + auth_token);
     
     return this.http.get<BNG_Response>(this.BASE_URL + 'User/GetMembershipsForCurrentUser/', { headers: headers})
@@ -44,7 +40,7 @@ export class BungieApiInterfaceService {
 
   public getCharacterInfo(auth_token: string, membership: Membership) {
     let headers = new HttpHeaders()
-      .set('x-api-key', '2d0dd70900f1496a8d4b72bc4d883252')
+      .set('x-api-key', environment.BUNGIE_API_KEY)
       .set('Authorization', 'Bearer ' + auth_token);
     
     let parameters = new HttpParams()
@@ -56,7 +52,7 @@ export class BungieApiInterfaceService {
 
   public getVaultArmors(auth_token: string, membership: Membership) {
     let headers = new HttpHeaders()
-      .set('x-api-key', '2d0dd70900f1496a8d4b72bc4d883252')
+      .set('x-api-key', environment.BUNGIE_API_KEY)
       .set('Authorization', 'Bearer ' + auth_token);
     
     let parameters = new HttpParams()
@@ -68,7 +64,7 @@ export class BungieApiInterfaceService {
 
   public getCharacterArmors(auth_token: string, membership: Membership, character_id: string) {
     let headers = new HttpHeaders()
-      .set('x-api-key', '2d0dd70900f1496a8d4b72bc4d883252')
+      .set('x-api-key', environment.BUNGIE_API_KEY)
       .set('Authorization', 'Bearer ' + auth_token);
     
     let parameters = new HttpParams()

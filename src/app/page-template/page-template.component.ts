@@ -8,7 +8,8 @@ import { getMembership, getCharacter } from '@scripts/browser/storage-interface'
 import { ArmorItem, Character, Membership } from '@dataTypes/storage-data.module';
 import { createIdString, parseProfileArmor, parseCharacterArmor, parseMembershipData, filterByQuantity } from '@scripts/browser/bungie-data-parsers';
 import { statDivergence_v1 } from '@scripts/scoring-algorithms/stat-divergence';
-import { compareByScore } from '@scripts/bungie-api-interaction/armor-item-management';
+import { compareByScore } from '@Ibrowser/bungie-data-parsers';
+import { environment } from 'environments/environment';
   
 
 @Component({
@@ -66,7 +67,8 @@ export class PageTemplateComponent implements OnInit {
     console.log(state);
     storeUUIDState(state);
 
-    const uri = `https://www.bungie.net/en/oauth/authorize?client_id=40726&response_type=code&state=${state}`;
+    const uri = `https://www.bungie.net/en/oauth/authorize?client_id=${environment.BUNGIE_CLIENT_ID}&response_type=code&state=${state}`;
+    //const uri = `https://www.bungie.net/en/oauth/authorize?client_id=41586&response_type=code&state=${state}`;
     window.location.href = uri;
   };
 

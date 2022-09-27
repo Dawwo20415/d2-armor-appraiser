@@ -6,7 +6,7 @@ interface BNG_object {
 export interface BNG_Response {
     Response: any,
     ErrorCode: number,
-    ThrottleSeconds: 0,
+    ThrottleSeconds: number,
     ErrorStatus: string,
     Message: string,
     MessageData: object
