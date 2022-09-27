@@ -1,4 +1,14 @@
-export const perks = {
+export interface HModifierOptions {
+    five: any,
+    ten: any,
+    twenty: any
+}
+
+export interface HPerkOptions {
+    plus: HModifierOptions,
+    minus: HModifierOptions
+}
+export const perks: HPerkOptions = {
     plus: {
         five: {
             //mob 

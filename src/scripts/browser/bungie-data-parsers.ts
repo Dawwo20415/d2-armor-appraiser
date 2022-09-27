@@ -1,7 +1,7 @@
 import { BNG_CharBucketData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
-import { ArmorItem, Character, Membership } from "@dataTypes/storage-data.module";
+import { ArmorItem, ArmorStats, Character, Membership } from "@dataTypes/storage-data.module";
 
-import { stats, characters } from '@Bhashes/characters'
+import { stats, characters, HCharacters } from '@Bhashes/characters'
 import { perks } from "@Bhashes/perks";
 import { buckets_hashes } from "@Bhashes/buckets";
 
@@ -153,50 +153,49 @@ function adjustStatsForModifiers(item: ArmorItem, perkList: any) {
 
   if (typeof perkList === 'undefined') return result;
 
-  //TODO: Why do i need to cast it as any, where do I need to modify this?
   for (let i = 0; i < perkList.perks.length; i++) {
       //Conditions
       let _hash: string = perkList.perks[i].perkHash;
 
       //+5
-      if (!(typeof (perks.plus.five as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.plus.five as any)[_hash]] -= 5;
+      if (!(typeof perks.plus.five[_hash] === 'undefined')) {
+          result.stats[perks.plus.five[_hash] as keyof ArmorStats] -= 5;
           result.stats['mob'] -= 5;
           result.stats['tot'] -= 5;
           continue;
       }
 
       //+10
-      if (!(typeof (perks.plus.ten as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.plus.ten as any)[_hash]] -= 10;
+      if (!(typeof perks.plus.ten[_hash] === 'undefined')) {
+          result.stats[perks.plus.ten[_hash] as keyof ArmorStats] -= 10;
           result.stats['tot'] -= 10;
           continue;
       }
 
       //+20
-      if (!(typeof (perks.plus.twenty as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.plus.twenty as any)[_hash]] -= 20;
+      if (!(typeof perks.plus.twenty[_hash] === 'undefined')) {
+          result.stats[perks.plus.twenty[_hash] as keyof ArmorStats] -= 20;
           result.stats['tot'] -= 20;
           continue;
       }
 
       //-5
-      if (!(typeof (perks.minus.five as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.minus.five as any)[_hash]] += 5;
+      if (!(typeof perks.minus.five[_hash] === 'undefined')) {
+          result.stats[perks.minus.five[_hash] as keyof ArmorStats] += 5;
           result.stats['tot'] += 5;
           continue;
       }
 
       //-10
-      if (!(typeof (perks.minus.ten as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.minus.ten as any)[_hash]] += 10;
+      if (!(typeof perks.minus.ten[_hash] === 'undefined')) {
+          result.stats[perks.minus.ten[_hash] as keyof ArmorStats] += 10;
           result.stats['tot'] += 10;
           continue;
       }
 
       //-20
-      if (!(typeof (perks.minus.twenty as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.minus.twenty as any)[_hash]] += 20;
+      if (!(typeof perks.minus.twenty[_hash] === 'undefined')) {
+          result.stats[perks.minus.twenty[_hash] as keyof ArmorStats] += 20;
           result.stats['tot'] += 20;
           continue;
       }
@@ -253,13 +252,13 @@ function vaultArmorSelectConditions(profileItem: any, instanceItem: any, charact
   // Is it a pice of armor?
   if (instanceItem.primaryStat.statHash != 3897883278) return false;
   // Is item a "class-item"?
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].class_item) return false;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].class_item) return false;
   
   // Does it belong to the selected character? POSITIVE EXIT
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].helmet) return true;
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].gloves) return true;
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].chest) return true;
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].legs) return true; 
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].helmet) return true;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].gloves) return true;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].chest) return true;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].legs) return true; 
 
   return false;
 }

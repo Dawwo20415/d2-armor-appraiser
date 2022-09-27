@@ -9,16 +9,18 @@ export interface Character {
     emblem_path: string
 }
 
+export interface ArmorStats {
+    mob: number,
+    res: number,
+    rec: number,
+    dis: number,
+    int: number,
+    str: number,
+    tot: number
+}
+
 export interface ArmorItem {
     itemInstanceId: string,
-    stats: {
-        mob: number,
-        res: number,
-        rec: number,
-        dis: number,
-        int: number,
-        str: number,
-        tot: number
-    },
+    stats: ArmorStats,
     score: number
 }
