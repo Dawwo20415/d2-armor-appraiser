@@ -21,11 +21,20 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build
-      run: npm run actions:build
-
     - name: Deploy
-      if: success()
-      run: npm run actions:deploy
+      uses: AhsanAyaz/angular-deploy-gh-pages-actions@1.3.2
+      with:
+        github_access_token: ${{ secrets.ACCESS_TOKEN }}
+        build_configuration: production
+        base_href: https://dawwo20415.github.io/d2-armor-appraiser/
+        deploy_branch: gh-pages 
+        angular_dist_build_folder: dist/d2-armor-appraiser
+
+#    - name: Build
+#      run: npm run actions:build
+
+#    - name: Deploy
+#      if: success()
+#      run: npm run actions:deploy
 
 # https://github.com/rodrigokamada/angular-github-actions
