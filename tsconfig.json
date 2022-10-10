@@ -6,6 +6,7 @@
     "allowJs": true,
     "paths": {
       "@scripts/*": ["scripts/*"],
+      "@assets/*":["assets/*"],
       "@Ibrowser/*": ["scripts/browser/*"],
       "@Ibungie/*": ["scripts/bungie-api-interaction/*"],
       "@Bhashes/*": ["scripts/bungie-api-interaction/hashes/*"],
