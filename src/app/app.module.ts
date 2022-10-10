@@ -13,9 +13,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list'; 
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MainPageComponent } from './main-page/main-page.component';
+import { DisplayComponent } from './display/display.component';
 
 
 @NgModule({
@@ -23,7 +25,8 @@ import { MainPageComponent } from './main-page/main-page.component';
     AppComponent,
     PageTemplateComponent,
     BAuthRedirectComponent,
-    MainPageComponent
+    MainPageComponent,
+    DisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +39,7 @@ import { MainPageComponent } from './main-page/main-page.component';
     MatIconModule,
     MatCardModule,
     MatButtonModule,
+    MatGridListModule,
 
     FlexLayoutModule 
   ],
