@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ArmorItem } from '@dataTypes/storage-data.module'
 
 @Component({
   selector: 'app-armor-data-display',
@@ -11,5 +12,8 @@ export class ArmorDataDisplayComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  displayedColumns: string[] = ['ID','MOB','RES','REC','DIS','INT','STR','TOT','SCORE']
+  armorList: ArmorItem[] = [];
 
 }

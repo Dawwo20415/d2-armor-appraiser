@@ -3,5 +3,58 @@
         <mat-card-title>Armor Data Display...</mat-card-title>
         <mat-card-subtitle>Here lies the table with all the armor pices</mat-card-subtitle>
     </mat-card-header>
+
+    <table mat-table [dataSource]="armorList" class="mat-elevation-z8">
+      
+        <ng-container matColumnDef="ID">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.itemInstanceId}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="MOB">
+          <th mat-header-cell *matHeaderCellDef> MOB </th>
+          <td mat-cell *matCellDef="let element"> {{element.stats.mob}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="RES">
+            <th mat-header-cell *matHeaderCellDef> RES </th>
+            <td mat-cell *matCellDef="let element"> {{element.stats.res}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="REC">
+            <th mat-header-cell *matHeaderCellDef> REC </th>
+            <td mat-cell *matCellDef="let element"> {{element.stats.rec}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="DIS">
+            <th mat-header-cell *matHeaderCellDef> DIS </th>
+            <td mat-cell *matCellDef="let element"> {{element.stats.dis}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="INT">
+            <th mat-header-cell *matHeaderCellDef> INT </th>
+            <td mat-cell *matCellDef="let element"> {{element.stats.int}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="STR">
+            <th mat-header-cell *matHeaderCellDef> STR </th>
+            <td mat-cell *matCellDef="let element"> {{element.stats.str}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TOT">
+            <th mat-header-cell *matHeaderCellDef> TOT </th>
+            <td mat-cell *matCellDef="let element"> {{element.stats.tot}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="SCORE">
+            <th mat-header-cell *matHeaderCellDef> Score </th>
+            <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      
+      
 </mat-card>
 
