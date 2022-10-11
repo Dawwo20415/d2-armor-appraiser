@@ -72,6 +72,7 @@ export function getCharacter(index: number): Character {
 }
 
 export function getItems(): ArmorItem[] {
+    console.log(accessResource(armor_items_list));
     return JSON.parse(accessResource(armor_items_list));
 }
 
@@ -97,6 +98,7 @@ export function storeCharacters(value: BNG_Response): void {
     storeResource(true, character_data, parseCharactersData(value));
 }
 
+//TODO: Ricordarsi di rimettere su 'false'
 export function storeItems(value: ArmorItem[]): void {
-    storeResource(false, armor_items_list, value);
+    storeResource(true, armor_items_list, value);
 }
