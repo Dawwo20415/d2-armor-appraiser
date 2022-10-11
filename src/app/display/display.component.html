@@ -1,43 +1,15 @@
 <div class="info-display">
     <!-- Left Column-->
     <div class="algorithm-data">
-        <mat-card class="data-card">
-            <mat-card-header>
-                <mat-card-title>Character Select...</mat-card-title>
-                <mat-card-subtitle>Choose one of your NUMBER guardians</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-
-        <mat-card class="data-card">
-            <mat-card-header>
-                <mat-card-title>Algorithm Options...</mat-card-title>
-                <mat-card-subtitle>Set the algorithm Data</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-
-        <mat-card class="data-card">
-            <mat-card-header>
-                <mat-card-title>Data Distribution...</mat-card-title>
-                <mat-card-subtitle>Graph that shows a distribution of all the armor scores</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
-
-        <mat-card class="data-card">
-            <mat-card-header>
-                <mat-card-title>Score Filter Parameters</mat-card-title>
-                <mat-card-subtitle>Choose the treshold for filtering armor items</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
+        <app-character-select></app-character-select>
+        <app-algorithm-parameters></app-algorithm-parameters>
+        <app-score-filter></app-score-filter>
+        
     </div>
 
     <!-- Right Column-->
     <div class="armor-display">
-        <mat-card class="data-card">
-            <mat-card-header>
-                <mat-card-title>Armor Data Display...</mat-card-title>
-                <mat-card-subtitle>Here lies the table with all the armor pices</mat-card-subtitle>
-            </mat-card-header>
-        </mat-card>
+        <app-armor-data-display></app-armor-data-display>
     </div>
 </div>
 
