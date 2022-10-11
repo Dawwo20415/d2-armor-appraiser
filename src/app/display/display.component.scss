@@ -1,15 +1,21 @@
 .info-display {
-    background-color: rebeccapurple;
     margin: 20px;
 }
 
-.info-grid {
-    margin: 5px;
-    margin-top: 5px;
+.algorithm-data {
+    width:50%;
+    float: left;
+    background-color: red;
 }
 
-mat-grid-tile {
-    background: lightblue;
-    border-radius: 10px;
-    margin-right: 5px;
+.armor-display {
+    width:50%;
+    float: right;
+    background-color: green;
+}
+
+.data-card{
+    width: auto;
+    margin: 3px;
+    border-radius: 5px;
 }

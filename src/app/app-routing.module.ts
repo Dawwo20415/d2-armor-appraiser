@@ -9,7 +9,9 @@ const routes: Routes = [
   { path: '', component: PageTemplateComponent },
   { path: 'confirm_auth', component: BAuthRedirectComponent},
   { path: 'homepage_test', component: MainPageComponent},
-  { path: 'display', component: DisplayComponent}
+  { path: 'display', component: DisplayComponent},
+
+  {path: '**', redirectTo: '/'}
 ];
 
 @NgModule({
