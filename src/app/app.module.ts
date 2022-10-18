@@ -25,6 +25,7 @@ import { CharacterSelectComponent }     from './homepage-cards/character-select/
 import { AlgorithmParametersComponent } from './homepage-cards/algorithm-parameters/algorithm-parameters.component';
 import { ScoreFilterComponent }         from './homepage-cards/score-filter/score-filter.component';
 import { ArmorDataDisplayComponent }    from './homepage-cards/armor-data-display/armor-data-display.component';
+import { LoginRequestComponent } from './login-request/login-request.component';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { ArmorDataDisplayComponent }    from './homepage-cards/armor-data-displa
     CharacterSelectComponent,
     AlgorithmParametersComponent,
     ScoreFilterComponent,
-    ArmorDataDisplayComponent
+    ArmorDataDisplayComponent,
+    LoginRequestComponent
   ],
   imports: [
     BrowserModule,

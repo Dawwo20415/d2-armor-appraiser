@@ -19,4 +19,5 @@
         </button>
     </mat-toolbar>
   </p>
-<router-outlet></router-outlet>
+<router-outlet *ngIf="isLoggedIn"></router-outlet>
+<app-login-request *ngIf="!isLoggedIn"></app-login-request>

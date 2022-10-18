@@ -10,6 +10,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
 export class AppComponent {
   title = 'd2-armor-appraiser';
   mobile: boolean = false;
+  isLoggedIn: boolean = true;
 
   constructor(private observer: BreakpointObserver, private cd: ChangeDetectorRef) {}
 
