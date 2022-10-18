@@ -1,8 +1,6 @@
 import { ChangeDetectorRef, Component} from '@angular/core';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 
-import { getAuthenticationToken } from '@Ibrowser/storage-interface';
-
 
 @Component({
   selector: 'app-root',
@@ -12,7 +10,7 @@ import { getAuthenticationToken } from '@Ibrowser/storage-interface';
 export class AppComponent {
   title = 'd2-armor-appraiser';
   mobile: boolean = false;
-  isLoggedIn: boolean = false;
+  isLoggedIn: 'logged' | 'not logged' | 'pending' = 'not logged';
 
   constructor(private observer: BreakpointObserver, private cd: ChangeDetectorRef) {}
 
@@ -29,19 +27,7 @@ export class AppComponent {
     }, 0)
 
     this.cd.detectChanges();
-
-    this.textTokenForExpire();
-  }
-
-  textTokenForExpire(): boolean {
-    const token: any | null = getAuthenticationToken();
-
-    if (!token) {
-      console.log('Couldnt get token from storage');
-    }
-
-    console.log('Could get token from storage');
-
-    return false;
   }
 }
+
+

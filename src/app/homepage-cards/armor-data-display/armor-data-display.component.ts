@@ -14,7 +14,12 @@ export class ArmorDataDisplayComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.armorList = getItems();
+    try {
+      this.armorList = getItems();
+    } catch(e) {
+      console.log(e + ' | It is probable that the armor data has not been retrieved from bungie API, please select a character to take the armor data from!');
+    }
+    
   }
 
   displayedColumns: string[] = ['ID','MOB','RES','REC','DIS','INT','STR','TOT','SCORE'];

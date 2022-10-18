@@ -36,11 +36,10 @@ function accessResource(resource: string): string {
         return result;
 
     result = sessionStorage.getItem(resource);
-    //TODO: when implementing error handling add exeption for null result
     if (result != null)
         return result;
 
-    return '{status:"ERROR"}';
+    throw new Error('Resource not available: ' + resource.toString());
 }
 
 function storeResource(storage_type_flag: boolean, name: string, value : any, is_string = false): void {
