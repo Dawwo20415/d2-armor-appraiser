@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ArmorItem } from '@dataTypes/storage-data.module';
-import { getItems } from '@scripts/browser/storage-interface';
+import { getItems, storeItems } from '@scripts/browser/storage-interface';
+import { statDivergence_v1 } from '@algorithms/stat-divergence';
+import { compareByScore } from '@Ibrowser/bungie-data-parsers';
+import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service';
 
 @Component({
   selector: 'app-algorithm-parameters',
@@ -9,23 +12,26 @@ import { getItems } from '@scripts/browser/storage-interface';
 })
 export class AlgorithmParametersComponent implements OnInit {
 
-  weights = {
-    mob: 1,
-    res: 1,
-    rec: 1,
-    dis: 1,
-    int: 1,
-    str: 1
-  }
+  weights: Array<number> = [1,1,1,1,1,1];
 
-  constructor() { }
+  constructor(private updateTableService: ArmorTableUpdaterService) { }
 
   ngOnInit(): void {
   }
 
-  runAlgorithm() {
-    const armorItems: ArmorItem[] = getItems();
+  updateWeights(value: number | null, index: number) {
+    if (value)
+      this.weights[index] = value;
+  }
 
-    
+  runAlgorithm() {
+    let armorItems: ArmorItem[] = getItems();
+
+    armorItems = statDivergence_v1(armorItems, this.weights);
+      armorItems.sort(compareByScore);
+
+    storeItems(armorItems);
+
+    this.updateTableService.updateTable();
   }
 }

@@ -5,22 +5,22 @@
     </mat-card-header>
 
     <label>MOB:</label>
-    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1"></mat-slider><br>
+    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1" (change)="updateWeights($event.value,0)"></mat-slider><br>
 
     <label>RES:</label>
-    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1"></mat-slider><br>
+    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1" (change)="updateWeights($event.value,1)"></mat-slider><br>
 
     <label>REC:</label>
-    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1"></mat-slider><br>
+    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1" (change)="updateWeights($event.value,1)"></mat-slider><br>
 
     <label>DIS:</label>
-    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1"></mat-slider><br>
+    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1" (change)="updateWeights($event.value,3)"></mat-slider><br>
 
     <label>INT:</label>
-    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1"></mat-slider><br>
+    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1" (change)="updateWeights($event.value,4)"></mat-slider><br>
 
     <label>STR:</label>
-    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1"></mat-slider><br>
+    <mat-slider min="1" max="7" step="1" tickInterval="auto | 1" (change)="updateWeights($event.value,5)"></mat-slider><br>
 
     <button mat-raised-button (click)="runAlgorithm()" color="primary">RUN ALGORITHM WITH SELECTED PARAMETERS</button>
 
