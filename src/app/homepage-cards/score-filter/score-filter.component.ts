@@ -7,9 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScoreFilterComponent implements OnInit {
 
+  treshold: number = 0;
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  updateTreshold(value: number | null) {
+    if (value)
+      this.treshold = value;
   }
 
 }
