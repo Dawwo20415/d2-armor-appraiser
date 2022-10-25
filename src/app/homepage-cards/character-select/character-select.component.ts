@@ -36,8 +36,6 @@ export class CharacterSelectComponent implements OnInit {
       const token = getAuthenticationToken();
       const membership: Membership = getMembership();
 
-      console.log(JSON.stringify(character));
-
       const profile_data$ = this.bungie_api.getVaultArmors(token.access_token, membership);
       const profile_data = await lastValueFrom(profile_data$);
       const char_data$ = this.bungie_api.getCharacterArmors(token.access_token, membership, character.Id);
