@@ -4,9 +4,7 @@
         <mat-card-subtitle>Choose one of your NUMBER guardians</mat-card-subtitle>
     </mat-card-header>
 
-    <mat-button-toggle-group name="selectedCharacter">
-        <mat-button-toggle value="0">Hunter</mat-button-toggle>
-        <mat-button-toggle value="1">Warlock</mat-button-toggle>
-        <mat-button-toggle value="2">Titan</mat-button-toggle>
+    <mat-button-toggle-group #CharSelect="matButtonToggleGroup" (change)="loadCharacterArmor(CharSelect.value)" name="selectedCharacter">
+        <mat-button-toggle *ngFor="let character of characters" [value]="character">{{classes[character.class_hash]}}</mat-button-toggle>
     </mat-button-toggle-group>
 </mat-card>

@@ -42,10 +42,14 @@ export const characters: HCharacters = {
     }
 };
 
-export const char_class = {
-    hunter: "671679327",
-    warlock: "2271682572",
-    titan: "3655393761"
+export interface Iclasshashes {
+    [key: string]: string;
+}
+
+export const char_class: Iclasshashes = {
+    "671679327": "Hunter",
+    "2271682572": "Warlock",
+    "3655393761": "Titan"
 };
 
 export const stats = {

@@ -28,25 +28,17 @@ export class DisplayComponent implements OnInit {
     let token: BNG_AuthToken
     try {
       token = getAuthenticationToken();
+
+      const membership$ = this.bungie_api.getMembershipInfo(token.access_token);
+      const membership = await lastValueFrom(membership$);
+
+      storeMembership(membership);
     } catch (e) {
       //There is not token saved in browser storage
       console.log(e);
       return false;
     }
-
-    //There is token in storage check if it is still valid
-    const membership$ = this.bungie_api.getMembershipInfo(token.access_token);
-    const membership = await lastValueFrom(membership$);
-
-    if (membership.ErrorStatus != "Success") {
-      return false;
-    }
-
-    storeMembership(membership);
-
-    const characters$ = this.bungie_api.getCharacterInfo(token.access_token, parseMembershipData(membership));
-    storeCharacters(await lastValueFrom(characters$));
-
+    
     return true;
   }
 }
