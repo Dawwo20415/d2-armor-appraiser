@@ -5,9 +5,9 @@
     </mat-card-header>
 
     <label>TRASHOLD:</label>
-    <mat-slider min="0" max="100" step="1" tickInterval="auto | 1" (valueChange)="updateTreshold($event)"></mat-slider><br>
+    <mat-slider min="0" max="100" step="1" tickInterval="auto | 1" (change)="generateQueryString($event.value)" (valueChange)="updateTreshold($event)"></mat-slider><br>
 
     <h1>{{treshold}}%</h1>
 
-    <button mat-raised-button color="primary">Copy DIM query to clipboard</button>
+    <button mat-raised-button [cdkCopyToClipboard]="DIMquery" color="primary">Copy DIM query to clipboard</button>
 </mat-card>
