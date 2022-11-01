@@ -28,6 +28,7 @@ import { ArmorDataDisplayComponent }    from './homepage-cards/armor-data-displa
 import { LoginRequestComponent }        from './login-request/login-request.component';
 
 import { ClipboardModule }              from '@angular/cdk/clipboard';
+import { DevControllCardComponent } from './homepage-cards/dev-controll-card/dev-controll-card.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { ClipboardModule }              from '@angular/cdk/clipboard';
     AlgorithmParametersComponent,
     ScoreFilterComponent,
     ArmorDataDisplayComponent,
-    LoginRequestComponent
+    LoginRequestComponent,
+    DevControllCardComponent
   ],
   imports: [
     BrowserModule,

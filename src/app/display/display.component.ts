@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { getAuthenticationToken, storeMembership, storeCharacters } from '@Ibrowser/storage-interface';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
 import { BNG_AuthToken } from '@dataTypes/bungie-response-data.module';
-import { parseMembershipData } from '@scripts/browser/bungie-data-parsers';
+import { environment } from 'environments/environment'; 
 
 @Component({
   selector: 'app-display',
@@ -13,6 +13,8 @@ import { parseMembershipData } from '@scripts/browser/bungie-data-parsers';
   styleUrls: ['./display.component.scss']
 })
 export class DisplayComponent implements OnInit {
+
+  isDevEnvironment = !environment.production;
 
   constructor(private bungie_api: BungieApiInterfaceService, private router: Router) { }
 

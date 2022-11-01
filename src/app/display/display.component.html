@@ -1,6 +1,7 @@
 <div class="info-display">
     <!-- Left Column-->
     <div class="algorithm-data">
+        <app-dev-controll-card *ngIf="isDevEnvironment"></app-dev-controll-card>
         <app-character-select></app-character-select>
         <app-algorithm-parameters></app-algorithm-parameters>
         <app-score-filter></app-score-filter>
