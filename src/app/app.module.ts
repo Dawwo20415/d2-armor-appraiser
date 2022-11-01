@@ -5,7 +5,6 @@ import { ReactiveFormsModule }          from '@angular/forms'
 
 import { AppRoutingModule }             from './app-routing.module';
 import { AppComponent }                 from './app.component';
-import { PageTemplateComponent }        from './page-template/page-template.component';
 import { BAuthRedirectComponent }       from './b-auth-redirect/b-auth-redirect.component';
 
 import { BrowserAnimationsModule }      from '@angular/platform-browser/animations';
@@ -19,7 +18,6 @@ import { MatSliderModule }              from '@angular/material/slider';
 import { MatTableModule }               from '@angular/material/table';
 
 import { FlexLayoutModule }             from '@angular/flex-layout';
-import { MainPageComponent }            from './main-page/main-page.component';
 import { DisplayComponent }             from './display/display.component';
 import { CharacterSelectComponent }     from './homepage-cards/character-select/character-select.component';
 import { AlgorithmParametersComponent } from './homepage-cards/algorithm-parameters/algorithm-parameters.component';
@@ -34,9 +32,7 @@ import { DevControllCardComponent } from './homepage-cards/dev-controll-card/dev
 @NgModule({
   declarations: [
     AppComponent,
-    PageTemplateComponent,
     BAuthRedirectComponent,
-    MainPageComponent,
     DisplayComponent,
     CharacterSelectComponent,
     AlgorithmParametersComponent,
