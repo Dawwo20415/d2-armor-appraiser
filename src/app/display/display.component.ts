@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 
-import { getAuthenticationToken, storeMembership, storeCharacters } from '@Ibrowser/storage-interface';
+import { getAuthenticationToken, storeMembership } from '@Ibrowser/storage-interface';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
 import { BNG_AuthToken } from '@dataTypes/bungie-response-data.module';
 import { environment } from 'environments/environment'; 
@@ -19,13 +20,11 @@ export class DisplayComponent implements OnInit {
   constructor(private bungie_api: BungieApiInterfaceService, private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    if (!(await this.isLogged())) {
-      this.router.navigate(['/login_request'])
-    }
+    await this.isLogged();
 
   }
 
-  async isLogged(): Promise<boolean> {
+  async isLogged(): Promise<void> {
     
     let token: BNG_AuthToken
     try {
@@ -36,11 +35,10 @@ export class DisplayComponent implements OnInit {
 
       storeMembership(membership);
     } catch (e) {
-      //There is not token saved in browser storage
-      console.log(e);
-      return false;
+      if (e instanceof HttpErrorResponse)
+        this.bungie_api.HandleErrorResponses(e);
+      else 
+        console.log(e);
     }
-    
-    return true;
   }
 }

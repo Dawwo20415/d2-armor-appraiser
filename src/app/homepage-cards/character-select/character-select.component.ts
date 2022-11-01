@@ -6,6 +6,7 @@ import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service
 import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service';
 import { char_class } from '@Bhashes/characters';
 import { lastValueFrom } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-character-select',
@@ -48,8 +49,11 @@ export class CharacterSelectComponent implements OnInit {
 
       this.updateTableService.updateTable();
     } catch (e) {
-      console.log(e);
-    }
+      if (e instanceof HttpErrorResponse)
+        this.bungie_api.HandleErrorResponses(e);
+      else 
+        console.log(e);
+    } 
 
   }
 
