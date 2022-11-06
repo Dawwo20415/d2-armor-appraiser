@@ -75,6 +75,10 @@ export class BungieApiInterfaceService {
       .pipe(map( response => response));
   }
 
+  public HonorCookies() {
+
+  }
+
   public HandleErrorResponses(e: HttpErrorResponse): void {
     switch(e.status) {
       case 400: {

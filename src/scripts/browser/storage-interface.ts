@@ -12,6 +12,7 @@ const auth_token       = `${app_prefix}authToken`;
 const membership       = `${app_prefix}membership`;
 const character_data   = `${app_prefix}characters`;
 const armor_items_list = `${app_prefix}armorItemsList`;
+const bng_affinity     = `${app_prefix}affinity`;
 
 //Resource interacting functions
 
@@ -78,6 +79,10 @@ export function getMembership(): Membership{
     return JSON.parse(accessResource(membership));
 }
 
+export function getAffinity() {
+    return JSON.parse(accessResource(bng_affinity));
+}
+
 //Resource setters
 
 export function storeUUIDState(value: string): void {
@@ -96,7 +101,10 @@ export function storeCharacters(value: BNG_Response): void {
     storeResource(true, character_data, parseCharactersData(value));
 }
 
-//TODO: Ricordarsi di rimettere su 'false'
 export function storeItems(value: ArmorItem[]): void {
     storeResource(false, armor_items_list, value);
+}
+
+export function storeAffinity(value: ArmorItem[]): void {
+    storeResource(false, bng_affinity, value);
 }
