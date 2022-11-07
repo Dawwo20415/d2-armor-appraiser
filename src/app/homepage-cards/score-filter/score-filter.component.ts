@@ -12,6 +12,9 @@ export class ScoreFilterComponent implements OnInit {
 
   treshold: number = 0;
   DIMquery: string = "";
+  to_dismantle: ArmorItem[] = [];
+  armor_quantity: number = 0;
+  to_dismantle_quantity: number = 0;
 
   constructor() { }
 
@@ -19,20 +22,21 @@ export class ScoreFilterComponent implements OnInit {
   }
 
   updateTreshold(value: number | null) {
-    if (value)
-      this.treshold = value;
+    try {
+      if (value) {
+        this.treshold = value;
+        const dataSet = getItems();
+        this.armor_quantity = dataSet.length;
+        this.to_dismantle = filterByQuantity(dataSet, this.treshold / 100);
+        this.to_dismantle_quantity = this.to_dismantle.length;
+      }  
+    } catch(e) {
+      console.log(e);
+    }  
   }
 
   generateQueryString(value: number | null) {
-    try {
-      const dataSet = getItems();
-
-      let armor_to_delete: ArmorItem[] = filterByQuantity(dataSet, this.treshold / 100);
-      this.DIMquery = `not:inloadout and (${createIdString(armor_to_delete)})`;
-    } catch(e) {
-      console.log(e);
-    }
-    
+    this.DIMquery = `not:inloadout and (${createIdString(this.to_dismantle)})`;  
   }
 
 }
