@@ -79,8 +79,8 @@ export function getMembership(): Membership{
     return JSON.parse(accessResource(membership));
 }
 
-export function getAffinity() {
-    return JSON.parse(accessResource(bng_affinity));
+export function getAffinity(): string {
+    return accessResource(bng_affinity);
 }
 
 //Resource setters
@@ -105,6 +105,6 @@ export function storeItems(value: ArmorItem[]): void {
     storeResource(false, armor_items_list, value);
 }
 
-export function storeAffinity(value: ArmorItem[]): void {
+export function storeAffinity(value: string): void {
     storeResource(false, bng_affinity, value);
 }

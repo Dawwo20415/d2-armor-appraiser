@@ -75,7 +75,7 @@ export class BungieApiInterfaceService {
       .pipe(map( response => response));
   }
 
-  public HonorCookies() {
+  public HonorCookies(response: BNG_AuthToken | BNG_Response) {
 
   }
 
