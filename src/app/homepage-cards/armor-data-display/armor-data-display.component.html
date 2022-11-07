@@ -13,42 +13,42 @@
       
         <ng-container matColumnDef="MOB">
           <th mat-header-cell *matHeaderCellDef> MOB </th>
-          <td mat-cell *matCellDef="let element"> {{element.stats.mob}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.stats.mob | number:'2.0-0'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="RES">
             <th mat-header-cell *matHeaderCellDef> RES </th>
-            <td mat-cell *matCellDef="let element"> {{element.stats.res}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.stats.res | number:'2.0-0'}} </td>
         </ng-container>
         
         <ng-container matColumnDef="REC">
             <th mat-header-cell *matHeaderCellDef> REC </th>
-            <td mat-cell *matCellDef="let element"> {{element.stats.rec}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.stats.rec | number:'2.0-0'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="DIS">
             <th mat-header-cell *matHeaderCellDef> DIS </th>
-            <td mat-cell *matCellDef="let element"> {{element.stats.dis}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.stats.dis | number:'2.0-0'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="INT">
             <th mat-header-cell *matHeaderCellDef> INT </th>
-            <td mat-cell *matCellDef="let element"> {{element.stats.int}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.stats.int | number:'2.0-0'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="STR">
             <th mat-header-cell *matHeaderCellDef> STR </th>
-            <td mat-cell *matCellDef="let element"> {{element.stats.str}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.stats.str | number:'2.0-0'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="TOT">
             <th mat-header-cell *matHeaderCellDef> TOT </th>
-            <td mat-cell *matCellDef="let element"> {{element.stats.tot}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.stats.tot | number:'2.0-0'}} </td>
         </ng-container>
 
         <ng-container matColumnDef="SCORE">
             <th mat-header-cell *matHeaderCellDef> Score </th>
-            <td mat-cell *matCellDef="let element"> {{element.score}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.score | number:'2.2-2'}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
