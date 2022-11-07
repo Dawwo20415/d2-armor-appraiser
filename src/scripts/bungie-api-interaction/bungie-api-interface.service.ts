@@ -26,7 +26,7 @@ export class BungieApiInterfaceService {
     let headers = new HttpHeaders()
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
-    return this.http.post<BNG_AuthToken>( this.BASE_URL + 'app/oauth/token/', body, { headers: headers})
+    return this.http.post<BNG_AuthToken>( this.BASE_URL + 'app/oauth/token/', body, { headers: headers, withCredentials: true })
       .pipe(map(response => response));
   }
 
@@ -35,7 +35,7 @@ export class BungieApiInterfaceService {
       .set('x-api-key', environment.BUNGIE_API_KEY)
       .set('Authorization', 'Bearer ' + auth_token);
     
-    return this.http.get<BNG_Response>(this.BASE_URL + 'User/GetMembershipsForCurrentUser/', { headers: headers})
+    return this.http.get<BNG_Response>(this.BASE_URL + 'User/GetMembershipsForCurrentUser/', { headers: headers, withCredentials: true })
       .pipe(map( response => response));
   }
 
@@ -47,7 +47,7 @@ export class BungieApiInterfaceService {
     let parameters = new HttpParams()
       .set('components','200');
     
-    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters})
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters, withCredentials: true })
       .pipe(map( response => response));
   }
 
@@ -59,7 +59,7 @@ export class BungieApiInterfaceService {
     let parameters = new HttpParams()
       .set('components','102,300,302,304');
 
-    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters})
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters, withCredentials: true })
       .pipe(map( response => response));
   }
 
@@ -71,12 +71,30 @@ export class BungieApiInterfaceService {
     let parameters = new HttpParams()
       .set('components','201,205,300,302,304');
     
-    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/Character/${character_id}/`, { headers: headers, params: parameters})
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/Character/${character_id}/`, { headers: headers, params: parameters, withCredentials: true })
       .pipe(map( response => response));
   }
 
-  public HonorCookies(response: BNG_AuthToken | BNG_Response) {
+  public dummyGet(auth_token: string) {
+    let headers = new HttpHeaders()
+      .set('x-api-key', environment.BUNGIE_API_KEY)
+      .set('Authorization', 'Bearer ' + auth_token);
+    
+    return this.http.get<BNG_Response>(this.BASE_URL + 'User/GetMembershipsForCurrentUser/', { headers: headers, withCredentials: true})
+      .pipe(map( response => response));
+  }
 
+  public dummyGet2(auth_token: string, membership: Membership) {
+
+    let headers = new HttpHeaders()
+      .set('x-api-key', environment.BUNGIE_API_KEY)
+      .set('Authorization', 'Bearer ' + auth_token);
+    
+    let parameters = new HttpParams()
+      .set('components','200');
+    
+    return this.http.get<BNG_Response>(this.BASE_URL + `Destiny2/${membership.Type}/Profile/${membership.Id}/`, { headers: headers, params: parameters, withCredentials: true})
+      .pipe(map( response => response));
   }
 
   public HandleErrorResponses(e: HttpErrorResponse): void {
