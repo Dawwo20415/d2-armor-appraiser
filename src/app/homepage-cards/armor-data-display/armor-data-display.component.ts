@@ -11,6 +11,7 @@ import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service'
 export class ArmorDataDisplayComponent implements OnInit {
 
   armorList: ArmorItem[] = [];
+  image_size: number = 30;
 
   constructor(private updateTableService: ArmorTableUpdaterService) { }
 
@@ -32,6 +33,6 @@ export class ArmorDataDisplayComponent implements OnInit {
     } 
   }
 
-  displayedColumns: string[] = ['ID','MOB','RES','REC','DIS','INT','STR','TOT','SCORE'];
+  displayedColumns: string[] = ['ICON','ID','MOB','RES','REC','DIS','INT','STR','TOT','SCORE'];
 
 }

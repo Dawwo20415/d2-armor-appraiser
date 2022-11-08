@@ -24,6 +24,7 @@ import { MatGridListModule }            from '@angular/material/grid-list';
 import { MatButtonToggleModule }        from '@angular/material/button-toggle';
 import { MatSliderModule }              from '@angular/material/slider';
 import { MatTableModule }               from '@angular/material/table';
+import { MatCheckboxModule }            from '@angular/material/checkbox';
 
 import { FlexLayoutModule }             from '@angular/flex-layout';
 import { ClipboardModule }              from '@angular/cdk/clipboard';
@@ -57,6 +58,7 @@ import { ClipboardModule }              from '@angular/cdk/clipboard';
     MatButtonToggleModule,
     MatSliderModule,
     MatTableModule,
+    MatCheckboxModule,
 
     FlexLayoutModule,
     ClipboardModule 

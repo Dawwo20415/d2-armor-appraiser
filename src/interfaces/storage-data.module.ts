@@ -21,6 +21,8 @@ export interface ArmorStats {
 
 export interface ArmorItem {
     itemInstanceId: string,
+    itemHash: string,
+    iconPath: string,
     stats: ArmorStats,
     score: number
 }

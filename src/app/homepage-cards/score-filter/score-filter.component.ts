@@ -15,6 +15,7 @@ export class ScoreFilterComponent implements OnInit {
   to_dismantle: ArmorItem[] = [];
   armor_quantity: number = 0;
   to_dismantle_quantity: number = 0;
+  adjust_by_armor_type: boolean = false;
 
   constructor() { }
 

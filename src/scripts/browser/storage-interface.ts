@@ -1,4 +1,4 @@
-import { BNG_AuthToken, BNG_Response } from '@dataTypes/bungie-response-data.module';
+import { BNG_AuthToken, BNG_CommonItemData, BNG_Response } from '@dataTypes/bungie-response-data.module';
 import { ArmorItem, Character, Membership } from '@dataTypes/storage-data.module';
 
 import { parseCharactersData, parseMembershipData } from '@Ibrowser/bungie-data-parsers';
@@ -13,6 +13,8 @@ const membership       = `${app_prefix}membership`;
 const character_data   = `${app_prefix}characters`;
 const armor_items_list = `${app_prefix}armorItemsList`;
 const bng_affinity     = `${app_prefix}affinity`;
+const bng_manifest     = `${app_prefix}manifest`;
+const bng_manifest_ver = `${app_prefix}manifestVersion`;
 
 //Resource interacting functions
 
@@ -83,6 +85,21 @@ export function getAffinity(): string {
     return accessResource(bng_affinity);
 }
 
+export function getManifest(): BNG_CommonItemData {
+    return JSON.parse(accessResource(bng_manifest));
+}
+
+export function getManifestVersion(): string {
+    return accessResource(bng_manifest_ver);
+}
+
+export function manifestLookupIcon(manifest: BNG_CommonItemData, hash: string): string {
+    if (manifest[hash].displayProperties.hasIcon) 
+        return manifest[hash].displayProperties.icon;
+
+    return "../../../assets/example_icon.jpg";
+}
+
 //Resource setters
 
 export function storeUUIDState(value: string): void {
@@ -107,4 +124,12 @@ export function storeItems(value: ArmorItem[]): void {
 
 export function storeAffinity(value: string): void {
     storeResource(false, bng_affinity, value);
+}
+
+export function storeManifest(value: BNG_CommonItemData): void {
+    storeResource(true, bng_manifest, value);
+}
+
+export function storeManifestVersion(value: string): void {
+    storeResource(true, bng_manifest_ver, value);
 }

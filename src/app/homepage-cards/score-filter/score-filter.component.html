@@ -9,6 +9,12 @@
 
     <h1>{{treshold}}%</h1>
 
+    <mat-checkbox class="example-margin"
+        (change)="adjust_by_armor_type=!adjust_by_armor_type">
+        
+        Adjust selection by armor type
+    </mat-checkbox>
+
     <p>{{to_dismantle_quantity}} armor pices out of {{armor_quantity}} have been selected for deletion</p>
 
     <button mat-raised-button [cdkCopyToClipboard]="DIMquery" color="primary">Copy DIM query to clipboard</button>

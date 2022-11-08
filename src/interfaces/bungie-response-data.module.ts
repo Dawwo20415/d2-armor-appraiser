@@ -3,6 +3,29 @@ interface BNG_object {
     privacy: number
 }
 
+interface CommonItem {
+    displayProperties: {
+        description: string,
+        name: string,
+        icon: string,
+        hasIcon: boolean
+    },
+    tooltipNotifications: Array<any>,
+    collectibleHash: number,
+    iconWatermark: string,
+    backgroundColor: any,
+    screenshot: string,
+    itemTypeDisplayName: string,
+    flavorText: string,
+    uiItemDisplayStyle: string,
+    itemTypeAndTierDisplayName: string,
+    displaySource: string
+}
+
+export interface BNG_CommonItemData {
+    [key: string] : CommonItem
+}
+
 export interface BNG_Response {
     Response: any,
     ErrorCode: number,

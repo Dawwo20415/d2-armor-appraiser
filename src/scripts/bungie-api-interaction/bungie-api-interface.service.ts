@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular/common/http';
 
-import { BNG_Response, BNG_AuthToken } from '@dataTypes/bungie-response-data.module'
+import { BNG_Response, BNG_AuthToken, BNG_CommonItemData } from '@dataTypes/bungie-response-data.module'
 import { Membership } from '@dataTypes/storage-data.module';
 import { map } from 'rxjs';
 import { environment } from 'environments/environment';
@@ -27,6 +27,11 @@ export class BungieApiInterfaceService {
       .set('Content-Type', 'application/x-www-form-urlencoded');
 
     return this.http.post<BNG_AuthToken>( this.BASE_URL + 'app/oauth/token/', body, { headers: headers, withCredentials: true })
+      .pipe(map(response => response));
+  }
+
+  public getDestinyManifest() {
+    return this.http.post<BNG_CommonItemData>( 'https://www.bungie.net/common/destiny2_content/json/en/DestinyInventoryItemDefinition-bf9ad87c-a09f-4adb-804e-0e16e3dbd55e.json', { withCredentials: true })
       .pipe(map(response => response));
   }
 

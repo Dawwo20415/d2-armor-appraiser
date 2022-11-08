@@ -10,6 +10,11 @@
           <th mat-header-cell *matHeaderCellDef> ID </th>
           <td mat-cell *matCellDef="let element"> {{element.itemInstanceId}} </td>
         </ng-container>
+
+        <ng-container matColumnDef="ICON">
+            <th mat-header-cell *matHeaderCellDef> ICON </th>
+            <td mat-cell *matCellDef="let element"> <img src="../../../assets/example_icon.jpg" width="{{image_size}}" height="{{image_size}}"> </td>
+          </ng-container>
       
         <ng-container matColumnDef="MOB">
           <th mat-header-cell *matHeaderCellDef> MOB </th>

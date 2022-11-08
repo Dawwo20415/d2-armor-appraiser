@@ -1,9 +1,10 @@
-import { BNG_CharBucketData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
+import { BNG_CharBucketData, BNG_CommonItemData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
 import { ArmorItem, ArmorStats, Character, Membership } from "@dataTypes/storage-data.module";
 
 import { stats, characters, HCharacters } from '@Bhashes/characters'
 import { perks } from "@Bhashes/perks";
 import { buckets_hashes } from "@Bhashes/buckets";
+import { getManifest, manifestLookupIcon } from "@Ibrowser/storage-interface";
 
 
 export function parseMembershipData(dataSet: BNG_Response): Membership {
@@ -37,6 +38,7 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
   const items_inst = response.itemComponents.instances.data;
   const items_stat = response.itemComponents.stats.data;
   const items_perk = response.itemComponents.perks.data;
+  const manifest: BNG_CommonItemData = getManifest();
 
   for (let i = 0; i < inventory_items.length; i++) {
       if (characterArmorSelectConditions(inventory_items[i], items_inst[inventory_items[i].itemInstanceId])) {
@@ -46,6 +48,8 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           
           var newItem: ArmorItem = {
               itemInstanceId: inventory_items[i].itemInstanceId,
+              itemHash: inventory_items[i].itemHash,
+              iconPath: manifestLookupIcon(manifest, inventory_items[i].itemHash),
               stats: {
                   mob: arrayStats[stats['mob']].value,
                   res: arrayStats[stats['res']].value,
@@ -73,6 +77,8 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           
           var newItem: ArmorItem = {
               itemInstanceId: equipment_items[i].itemInstanceId,
+              itemHash: inventory_items[i].itemHash,
+              iconPath: manifestLookupIcon(manifest, inventory_items[i].itemHash),
               stats: {
                   mob: arrayStats[stats['mob']].value,
                   res: arrayStats[stats['res']].value,
@@ -102,6 +108,7 @@ export function parseProfileArmor(dataSet:BNG_Response, character: string, filte
   const items_inst = response.itemComponents.instances.data;
   const items_stat = response.itemComponents.stats.data;
   const items_perk = response.itemComponents.perks.data;
+  const manifest: BNG_CommonItemData = getManifest();
 
   for (let i = 0; i < profile_items.length; i++) {
       if (vaultArmorSelectConditions(profile_items[i], items_inst[profile_items[i].itemInstanceId], character)) {
@@ -112,6 +119,8 @@ export function parseProfileArmor(dataSet:BNG_Response, character: string, filte
           
           var newItem: ArmorItem = {
               itemInstanceId:profile_items[i].itemInstanceId,
+              itemHash: profile_items[i].itemHash,
+              iconPath: manifestLookupIcon(manifest, profile_items[i].itemHash),
               stats: {
                   mob: arrayStats[stats['mob']].value,
                   res: arrayStats[stats['res']].value,
