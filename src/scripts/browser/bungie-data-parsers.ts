@@ -1,4 +1,4 @@
-import { BNG_CharBucketData, BNG_CommonItemData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
+import { BNG_CharBucketData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
 import { ArmorItem, ArmorStats, Character, Membership } from "@dataTypes/storage-data.module";
 
 import { stats, characters, HCharacters } from '@Bhashes/characters'

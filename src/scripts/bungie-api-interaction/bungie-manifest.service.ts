@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BNG_CommonItemData } from '@dataTypes/bungie-response-data.module';
+import { ArmorItem } from '@dataTypes/storage-data.module';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
 import { lastValueFrom } from 'rxjs';
 
@@ -25,7 +26,15 @@ export class BungieManifestService {
     } 
   }
 
-  public manifestLookupIcon(hash: string): string {
+  public assignIcons(dataSet: ArmorItem[]): ArmorItem[] {
+    dataSet.forEach(item => {
+      item.iconPath = this.manifestLookupIcon(item.itemHash);
+    });
+
+    return dataSet;
+  }
+
+  private manifestLookupIcon(hash: string): string {
     if (!(this.manifest === null)) {
       if (this.manifest[hash].displayProperties.hasIcon) 
         return this.manifest[hash].displayProperties.icon;
