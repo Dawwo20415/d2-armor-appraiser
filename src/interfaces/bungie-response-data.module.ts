@@ -19,7 +19,8 @@ interface CommonItem {
     flavorText: string,
     uiItemDisplayStyle: string,
     itemTypeAndTierDisplayName: string,
-    displaySource: string
+    displaySource: string,
+    equippable: boolean
 }
 
 export interface BNG_CommonItemData {

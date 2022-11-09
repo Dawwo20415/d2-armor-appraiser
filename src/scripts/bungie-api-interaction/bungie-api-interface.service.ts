@@ -31,7 +31,7 @@ export class BungieApiInterfaceService {
   }
 
   public getDestinyManifest() {
-    return this.http.post<BNG_CommonItemData>( 'https://www.bungie.net/common/destiny2_content/json/en/DestinyInventoryItemDefinition-bf9ad87c-a09f-4adb-804e-0e16e3dbd55e.json', { withCredentials: true })
+    return this.http.get<BNG_CommonItemData>( 'https://www.bungie.net/common/destiny2_content/json/en/DestinyInventoryItemLiteDefinition-d0776d73-4caf-4bc3-995f-e7cdf919af25.json')
       .pipe(map(response => response));
   }
 
