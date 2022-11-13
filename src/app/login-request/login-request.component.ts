@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class LoginRequestComponent implements OnInit {
 
-  case: 'default' | 401 | 503 | 500 = 'default';
+  case: number = 1;
 
   constructor(private route: ActivatedRoute) { }
 
@@ -21,10 +21,10 @@ export class LoginRequestComponent implements OnInit {
         this.case=params['errorCode'];
         console.log(this.case);
       } catch(e) {
-        this.case='default';
+        this.case=1;
       } finally {
         if (this.case === undefined)
-          this.case='default';
+          this.case=1;
       }
     });    
   }
