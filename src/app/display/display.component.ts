@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { getAuthenticationToken, storeMembership } from '@Ibrowser/storage-interface';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
-import { BNG_AuthToken, BNG_CommonItemData } from '@dataTypes/bungie-response-data.module';
+import { BNG_AuthToken } from '@dataTypes/bungie-response-data.module';
 import { environment } from 'environments/environment'; 
 import { BungieManifestService } from '@Ibungie/bungie-manifest.service';
+import { lvfMembership } from '@Ibungie/bungie-api-calls-library';
 
 @Component({
   selector: 'app-display',
@@ -34,8 +34,7 @@ export class DisplayComponent implements OnInit {
     try {
       token = getAuthenticationToken();
 
-      const membership$ = this.bungie_api.getMembershipInfo(token.access_token);
-      const membership = await lastValueFrom(membership$);
+      const membership = await lvfMembership(this.bungie_api, token.access_token);
 
       storeMembership(membership);
     } catch (e) {

@@ -5,8 +5,8 @@ import { parseCharactersData, parseCharacterArmor, parseProfileArmor } from '@Ib
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
 import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service';
 import { char_class } from '@Bhashes/characters';
-import { lastValueFrom } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { lvfCharacterArmor, lvfCharacterInfo, lvfVaultArmor } from '@Ibungie/bungie-api-calls-library';
 
 @Component({
   selector: 'app-character-select',
@@ -25,8 +25,7 @@ export class CharacterSelectComponent implements OnInit {
     const token = getAuthenticationToken();
     const membership = getMembership();
 
-    const chars$ = this.bungie_api.getCharacterInfo(token.access_token, membership);
-    const chars = await lastValueFrom(chars$);
+    const chars = await lvfCharacterInfo(this.bungie_api, token.access_token, membership);
 
     this.characters = parseCharactersData(chars);
     storeCharacters(chars);
@@ -37,10 +36,8 @@ export class CharacterSelectComponent implements OnInit {
       const token = getAuthenticationToken();
       const membership: Membership = getMembership();
 
-      const profile_data$ = this.bungie_api.getVaultArmors(token.access_token, membership);
-      const profile_data = await lastValueFrom(profile_data$);
-      const char_data$ = this.bungie_api.getCharacterArmors(token.access_token, membership, character.Id);
-      const char_data = await lastValueFrom(char_data$);
+      const profile_data = await lvfVaultArmor(this.bungie_api, token.access_token, membership);
+      const char_data = await lvfCharacterArmor(this.bungie_api, token.access_token, membership, character.Id);
 
       let armor_data = parseCharacterArmor(char_data);
           armor_data = parseProfileArmor(profile_data, character.class_hash, armor_data);

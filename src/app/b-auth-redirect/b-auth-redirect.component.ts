@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs'
+import { lvfAuthToken } from '@Ibungie/bungie-api-calls-library';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service'
 import { getUUIDState, storeAuthenticationToken } from '@Ibrowser/storage-interface';
 
@@ -33,8 +33,7 @@ export class BAuthRedirectComponent implements OnInit {
         return;
     }
 
-    const auth_token$ = this.bungie_api.getAuthToken(code);
-    storeAuthenticationToken(await lastValueFrom(auth_token$));
+    storeAuthenticationToken(await lvfAuthToken(this.bungie_api, code));
 
     this.router.navigate(['/']);
   }

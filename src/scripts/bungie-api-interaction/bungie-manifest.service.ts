@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BNG_CommonItemData } from '@dataTypes/bungie-response-data.module';
 import { ArmorItem } from '@dataTypes/storage-data.module';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
-import { lastValueFrom } from 'rxjs';
+import { lvfManifest } from '@Ibungie/bungie-api-calls-library';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,7 @@ export class BungieManifestService {
   constructor(private bungie_api: BungieApiInterfaceService) { }
 
   public async downloadManifest(): Promise<void> {
-    const manifest$ = this.bungie_api.getDestinyManifest();
-      this.manifest = await lastValueFrom(manifest$);
+    this.manifest = await lvfManifest(this.bungie_api);
 
     for (let key in this.manifest){
       if (!this.manifest[key].equippable) 
