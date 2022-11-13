@@ -9,18 +9,27 @@ export class AuthenticationCheckService {
 
   //TRUE: authenticated by bungie servers
   //FALSE: not authenticated by bungie servers
-  BNG_loginStatus: BehaviorSubject<boolean>
+  BNG_loginStatus: BehaviorSubject<number>
 
   constructor(private router: Router) { 
-    this.BNG_loginStatus = new BehaviorSubject(false);
+    this.BNG_loginStatus = new BehaviorSubject(1);
   }
 
   //Need to use RXJS BehaviourSubject but before make single library for the last value from requests
 
-  public requestBungieLogin() {
-    this.BNG_loginStatus.next(false);
+  public requestBungieLogin(reason: number) {
+    this.BNG_loginStatus.next(reason);
   }
 
-  //this.router.navigate(['/login_request'], {queryParams: {errorCode: '401'}});
+  public confirmAuthentication() {
+    this.BNG_loginStatus.next(0);
+  }
+
+  public redirectToLogin(router: Router, error: number) {
+    if (error)
+      router.navigate(['/login_request'], {queryParams: {errorCode: error}});
+    else 
+      router.navigate(['/login_request']);
+  }
 
 }

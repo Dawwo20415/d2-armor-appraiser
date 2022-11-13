@@ -7,6 +7,7 @@ import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service'
 import { char_class } from '@Bhashes/characters';
 import { HttpErrorResponse } from '@angular/common/http';
 import { lvfCharacterArmor, lvfCharacterInfo, lvfVaultArmor } from '@Ibungie/bungie-api-calls-library';
+import { AuthenticationCheckService } from '@Ibungie/authentication-check.service';
 
 @Component({
   selector: 'app-character-select',
@@ -19,7 +20,8 @@ export class CharacterSelectComponent implements OnInit {
   classes = char_class;
 
   constructor(private bungie_api: BungieApiInterfaceService,
-              private updateTableService: ArmorTableUpdaterService) {  }
+              private updateTableService: ArmorTableUpdaterService,
+              private login_service: AuthenticationCheckService) {  }
 
   async ngOnInit(): Promise<void> {
     const token = getAuthenticationToken();
@@ -46,10 +48,15 @@ export class CharacterSelectComponent implements OnInit {
 
       this.updateTableService.updateTable();
     } catch (e) {
-      if (e instanceof HttpErrorResponse)
+      if (e instanceof HttpErrorResponse){
         this.bungie_api.HandleErrorResponses(e);
-      else 
+      } else {
         console.log(e);
+      }
+      
+      console.log('Requesting redirect because of error in Character Select Component');
+      this.login_service.requestBungieLogin(1);
+
     } 
 
   }

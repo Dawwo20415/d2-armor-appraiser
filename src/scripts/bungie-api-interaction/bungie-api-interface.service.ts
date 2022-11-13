@@ -5,7 +5,7 @@ import { BNG_Response, BNG_AuthToken, BNG_CommonItemData } from '@dataTypes/bung
 import { Membership } from '@dataTypes/storage-data.module';
 import { map } from 'rxjs';
 import { environment } from 'environments/environment';
-import { Router } from '@angular/router';
+import { AuthenticationCheckService } from '@Ibungie/authentication-check.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class BungieApiInterfaceService {
   //private standard_headers: HttpHeaders;
   readonly BASE_URL = 'https://www.bungie.net/platform/';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private login_service: AuthenticationCheckService) {}
 
   public getAuthToken(code: string) {
     let body = new URLSearchParams();
@@ -112,19 +112,19 @@ export class BungieApiInterfaceService {
       case 401: {
         //Unautorized
         console.log(`Errore 401: Unautorized | ${e}`);
-        this.router.navigate(['/login_request'], {queryParams: {errorCode: '401'}});
+        this.login_service.requestBungieLogin(401);
         break;
       }
       case 500: {
         //Unautorized
         console.log(`Errore 500: Internal Server Error | ${e}`);
-        this.router.navigate(['/login_request'], {queryParams: {errorCode: '500'}});
+        this.login_service.requestBungieLogin(500);
         break;
       }
       case 503: {
         //Service Unavailabe
         console.log(`Errore 503: Service Unavailable, Maintanence | ${e}`);
-        this.router.navigate(['/login_request'], {queryParams: {errorCode: '503'}});
+        this.login_service.requestBungieLogin(503);
         break;
       }
       default: {

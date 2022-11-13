@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { lvfAuthToken } from '@Ibungie/bungie-api-calls-library';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service'
 import { getUUIDState, storeAuthenticationToken } from '@Ibrowser/storage-interface';
+import { AuthenticationCheckService } from '@Ibungie/authentication-check.service';
 
 
 @Component({
@@ -12,7 +13,9 @@ import { getUUIDState, storeAuthenticationToken } from '@Ibrowser/storage-interf
 })
 export class BAuthRedirectComponent implements OnInit {
 
-  constructor(private bungie_api: BungieApiInterfaceService, private router: Router) {}
+  constructor(private bungie_api: BungieApiInterfaceService,
+              private login_service: AuthenticationCheckService, 
+              private router: Router) {}
 
   async ngOnInit() {
     const query_params = new URL(window.location.href).searchParams;
@@ -35,6 +38,7 @@ export class BAuthRedirectComponent implements OnInit {
 
     storeAuthenticationToken(await lvfAuthToken(this.bungie_api, code));
 
+    this.login_service.confirmAuthentication();
     this.router.navigate(['/']);
   }
 

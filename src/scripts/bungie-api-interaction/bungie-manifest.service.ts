@@ -11,6 +11,7 @@ export class BungieManifestService {
 
   //This data does not persist on page refresh
   //TODO add a button to refresh armor data but not the manifest
+  //TODO add function to automatically grab manifest link
   manifest: BNG_CommonItemData | null = null;
   placeholder_icon: string = "../../../assets/example_icon.jpg";
 

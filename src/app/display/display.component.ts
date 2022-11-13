@@ -8,6 +8,7 @@ import { BNG_AuthToken } from '@dataTypes/bungie-response-data.module';
 import { environment } from 'environments/environment'; 
 import { BungieManifestService } from '@Ibungie/bungie-manifest.service';
 import { lvfMembership } from '@Ibungie/bungie-api-calls-library';
+import { AuthenticationCheckService } from '@Ibungie/authentication-check.service';
 
 @Component({
   selector: 'app-display',
@@ -20,28 +21,34 @@ export class DisplayComponent implements OnInit {
 
   constructor(private bungie_api: BungieApiInterfaceService,
               private manifest_service: BungieManifestService, 
+              private login_service: AuthenticationCheckService,
               private router: Router) { }
 
   async ngOnInit(): Promise<void> {
-    await this.isLogged();
-    await this.manifest_service.downloadManifest();
-
-  }
-
-  async isLogged(): Promise<void> {
-    
-    let token: BNG_AuthToken;
     try {
-      token = getAuthenticationToken();
+      let token: BNG_AuthToken= getAuthenticationToken();
 
       const membership = await lvfMembership(this.bungie_api, token.access_token);
-
       storeMembership(membership);
+      
+      await this.manifest_service.downloadManifest();
+
     } catch (e) {
-      if (e instanceof HttpErrorResponse)
+      //TODO Sistemare error handling
+      if (e instanceof HttpErrorResponse){
         this.bungie_api.HandleErrorResponses(e);
-      else 
+      } else {
         console.log(e);
-    }
+      }
+
+      this.login_service.requestBungieLogin(1);
+      console.log('Requesting redirect because of error in Display Component');
+
+    } finally {
+      this.login_service.BNG_loginStatus.subscribe( reason => {
+        if (reason != 0)
+          this.login_service.redirectToLogin(this.router, reason);
+      });
+    }    
   }
 }
