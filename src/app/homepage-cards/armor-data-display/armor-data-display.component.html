@@ -1,7 +1,24 @@
 <mat-card class="data-card">
     <mat-card-header>
-        <mat-card-title>Armor Data Display...</mat-card-title>
-        <mat-card-subtitle>Here lies the table with all the armor pices</mat-card-subtitle>
+        <mat-card-title>Armor Data General Display...</mat-card-title>
+        <mat-card-subtitle>Here is displayed data about the whole dataset of armor items</mat-card-subtitle>
+    </mat-card-header>
+
+    <p>Total number of armor pices: {{armorList.length}}</p>
+    <p>Percentage of different kinds of Armor: 
+        <img src="../../../../destiny-icons/armor_types/helmet.svg"> 
+        <img src="../../../../destiny-icons/armor_types/gloves.svg"> 
+        <img src="../../../../destiny-icons/armor_types/chest.svg"> 
+        <img src="../../../../destiny-icons/armor_types/boots.svg"></p>
+     
+</mat-card>
+
+
+
+<mat-card class="data-card">
+    <mat-card-header>
+        <mat-card-title>Armor List Data Display...</mat-card-title>
+        <mat-card-subtitle>Here is displayed the table with all the armor pices</mat-card-subtitle>
     </mat-card-header>
 
     <table mat-table [dataSource]="armorList" class="mat-elevation-z8">

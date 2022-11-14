@@ -19,6 +19,13 @@ export interface ArmorStats {
     tot: number
 }
 
+export interface ArmorCollectionInfo {
+    helmetQuantity: number,
+    glovesQuantity: number,
+    chestQuantity: number,
+    bootsQuantity: number,
+}
+
 export interface ArmorItem {
     itemInstanceId: string,
     itemHash: string,
