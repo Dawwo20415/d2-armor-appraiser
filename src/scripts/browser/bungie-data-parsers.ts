@@ -75,7 +75,7 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           
           var newItem: ArmorItem = {
               itemInstanceId: equipment_items[i].itemInstanceId,
-              itemHash: inventory_items[i].itemHash,
+              itemHash: equipment_items[i].itemHash,
               iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
