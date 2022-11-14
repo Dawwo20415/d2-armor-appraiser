@@ -16,6 +16,7 @@ export class ScoreFilterComponent implements OnInit {
   armor_quantity: number = 0;
   to_dismantle_quantity: number = 0;
   adjust_by_armor_type: boolean = false;
+  add_notinloadout: boolean = true;
 
   constructor() { }
 
@@ -36,8 +37,13 @@ export class ScoreFilterComponent implements OnInit {
     }  
   }
 
-  generateQueryString(value: number | null) {
-    this.DIMquery = `not:inloadout and (${createIdString(this.to_dismantle)})`;  
+  generateQueryString() {
+    console.log('Il valore di add_notinloadout è: ' + this.add_notinloadout);
+    if (this.add_notinloadout) {
+      this.DIMquery = `not:inloadout and (${createIdString(this.to_dismantle)})`;
+    } else {
+      this.DIMquery = `${createIdString(this.to_dismantle)}`;
+    }
   }
 
 }
