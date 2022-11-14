@@ -32,15 +32,15 @@ export class DisplayComponent implements OnInit {
       storeMembership(membership);
       
       await this.manifest_service.downloadManifest();
-
+      this.login_service.confirmAuthentication();
     } catch (e) {
       //TODO Sistemare error handling
       if (e instanceof HttpErrorResponse){
         this.bungie_api.HandleErrorResponses(e);
       } else {
         console.log(e);
-        this.login_service.requestBungieLogin(1);
         console.log('Requesting redirect because of error in Display Component');
+        this.login_service.requestBungieLogin(1);
       }
     } finally {
       this.login_service.BNG_loginStatus.subscribe( reason => {

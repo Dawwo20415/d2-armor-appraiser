@@ -28,7 +28,8 @@ export class BungieManifestService {
 
   public assignIcons(dataSet: ArmorItem[]): ArmorItem[] {
     dataSet.forEach(item => {
-      item.iconPath = this.manifestLookupIcon(item.itemHash);
+      if (item.iconPath == '')
+        item.iconPath = this.manifestLookupIcon(item.itemHash);
     });
 
     return dataSet;

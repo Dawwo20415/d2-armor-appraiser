@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ArmorItem } from '@dataTypes/storage-data.module';
-import { getItems } from '@Ibrowser/storage-interface';
+import { getItems, storeItems } from '@Ibrowser/storage-interface';
 import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service';
 import { BungieManifestService } from '@Ibungie/bungie-manifest.service';
 
@@ -31,6 +31,7 @@ export class ArmorDataDisplayComponent implements OnInit {
     try {
       let tmp = getItems();
       this.armorList = this.manifestService.assignIcons(tmp);
+      storeItems(tmp);
     } catch(e) {
       console.log(e + ' | It is probable that the armor data has not been retrieved from bungie API, please select a character to take the armor data from!');
     } 
