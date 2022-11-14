@@ -24,13 +24,25 @@ export class CharacterSelectComponent implements OnInit {
               private login_service: AuthenticationCheckService) {  }
 
   async ngOnInit(): Promise<void> {
-    const token = getAuthenticationToken();
-    const membership = getMembership();
+    try {
+      const token = getAuthenticationToken();
+      const membership = getMembership();
 
-    const chars = await lvfCharacterInfo(this.bungie_api, token.access_token, membership);
+      const chars = await lvfCharacterInfo(this.bungie_api, token.access_token, membership);
 
-    this.characters = parseCharactersData(chars);
-    storeCharacters(chars);
+      this.characters = parseCharactersData(chars);
+      storeCharacters(chars);
+
+    } catch(e) {
+      if (e instanceof HttpErrorResponse){
+        this.bungie_api.HandleErrorResponses(e);
+      } else {
+        console.log(e);
+        console.log('Requesting redirect because of error in Character Select Component');
+        this.login_service.requestBungieLogin(1);
+      }
+      
+    }
   }
 
   async loadCharacterArmor(character: any) {
@@ -52,11 +64,9 @@ export class CharacterSelectComponent implements OnInit {
         this.bungie_api.HandleErrorResponses(e);
       } else {
         console.log(e);
+        console.log('Requesting redirect because of error in Character Select Component');
+        this.login_service.requestBungieLogin(1);
       }
-      
-      console.log('Requesting redirect because of error in Character Select Component');
-      this.login_service.requestBungieLogin(1);
-
     } 
 
   }
