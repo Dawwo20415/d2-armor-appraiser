@@ -24,11 +24,17 @@ jobs:
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
-    - name: Install Angular GLI ghpages package
-      run: npm install -g angular-cli-ghpages
+    #- name: Install Angular GLI ghpages package
+    #  run: npm install -g angular-cli-ghpages
 
     - name: Build
       run: npm run actions:build
 
-    - name: Deploy
-      run: npm run actions:deploy
+    #- name: Deploy
+    #  run: npm run actions:deploy
+
+    - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist\d2-armor-appraiser
+          token: ${{ sectrets.GH_TOKEN }}
