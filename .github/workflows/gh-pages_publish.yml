@@ -28,7 +28,7 @@ jobs:
       run: npm run actions:build
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4s
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: dist/d2-armor-appraiser
         token: ${{ secrets.ACCESS_TOKEN }}
