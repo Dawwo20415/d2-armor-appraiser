@@ -28,6 +28,4 @@ jobs:
       run: npm run actions:build
 
     - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        folder: dist/d2-armor-appraiser
+      run: npm run actions:deploy
