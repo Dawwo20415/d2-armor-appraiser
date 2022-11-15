@@ -19,7 +19,7 @@ jobs:
         node-version: '16'
 
     - name: Install dependencies
-      run: npm install
+      run: npm install --legacy-peer-deps
 
     - name: Deploy
       uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
