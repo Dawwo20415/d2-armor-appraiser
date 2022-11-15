@@ -25,7 +25,7 @@ jobs:
       run: npm install --legacy-peer-deps
 
     - name: Install Angular GLI ghpages package
-      run npm install -g angular-cli-ghpages
+      run: npm install -g angular-cli-ghpages
 
     - name: Build
       run: npm run actions:build
