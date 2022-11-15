@@ -47,6 +47,7 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           var newItem: ArmorItem = {
               itemInstanceId: inventory_items[i].itemInstanceId,
               itemHash: inventory_items[i].itemHash,
+              itemType: assignTypeChar(inventory_items[i].bucketHash),
               iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
@@ -76,6 +77,7 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           var newItem: ArmorItem = {
               itemInstanceId: equipment_items[i].itemInstanceId,
               itemHash: equipment_items[i].itemHash,
+              itemType: assignTypeChar(equipment_items[i].bucketHash),
               iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
@@ -117,6 +119,7 @@ export function parseProfileArmor(dataSet:BNG_Response, character: string, filte
           var newItem: ArmorItem = {
               itemInstanceId:profile_items[i].itemInstanceId,
               itemHash: profile_items[i].itemHash,
+              itemType: assignTypeVault(items_inst[profile_items[i].itemInstanceId].unlockHashesRequiredToEquip[0], character),
               iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
@@ -245,6 +248,14 @@ function characterArmorSelectConditions(item_profile: any, item_instance: any) {
   return false;
 }
 
+function assignTypeChar(hash: any): string {
+  if (hash == buckets_hashes.helmet) return 'helmet';
+  if (hash == buckets_hashes.gauntlets) return 'gloves';
+  if (hash == buckets_hashes.chest) return 'chest';
+  if (hash == buckets_hashes.legs) return 'boots';
+  return 'undefined';
+}
+
 function vaultArmorSelectConditions(profileItem: any, instanceItem: any, character: any) {
 
   // Is item in vault?
@@ -267,6 +278,14 @@ function vaultArmorSelectConditions(profileItem: any, instanceItem: any, charact
   if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].legs) return true; 
 
   return false;
+}
+
+function assignTypeVault(hash: any, character: any): string {
+  if (hash == characters[character as keyof HCharacters].helmet) return 'helmet';
+  if (hash == characters[character as keyof HCharacters].gloves) return 'gloves';
+  if (hash == characters[character as keyof HCharacters].chest) return 'chest';
+  if (hash == characters[character as keyof HCharacters].legs) return 'boots'; 
+  return 'undefined';
 }
 
 export function createIdString (data: ArmorItem[]) {

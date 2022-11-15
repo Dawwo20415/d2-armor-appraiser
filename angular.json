@@ -28,7 +28,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {"glob": "**/*", "input": "./destiny-icons/", "output": "/destiny-icons/"}
             ],
             "styles": [
               "src/styles.scss"
@@ -102,7 +103,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              {"glob": "**/*", "input": "destiny-icons/", "output": "/destiny-icons/"}
             ],
             "styles": [
               "src/styles.scss"

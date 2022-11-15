@@ -6,10 +6,15 @@
 
     <p>Total number of armor pices: {{armorList.length}}</p>
     <p>Percentage of different kinds of Armor: 
-        <img src="../../../../destiny-icons/armor_types/helmet.svg"> 
-        <img src="../../../../destiny-icons/armor_types/gloves.svg"> 
-        <img src="../../../../destiny-icons/armor_types/chest.svg"> 
-        <img src="../../../../destiny-icons/armor_types/boots.svg"></p>
+        <img src="assets/helmet.svg" width="{{image_size}}" height="{{image_size}}"> 
+            ~{{collection_info.helmetQuantity/armorList.length*100 | number:'2.1-1'}}%
+        <img src="destiny-icons/armor_types/gloves.svg" width="{{image_size}}" height="{{image_size}}"> 
+            ~{{collection_info.glovesQuantity/armorList.length*100 | number:'2.1-1'}}%
+        <img src="destiny-icons/armor_types/chest.svg" width="{{image_size}}" height="{{image_size}}">
+            ~{{collection_info.chestQuantity/armorList.length*100  | number:'2.1-1'}}%
+        <img src="destiny-icons/armor_types/boots.svg" width="{{image_size}}" height="{{image_size}}">
+            ~{{collection_info.bootsQuantity/armorList.length*100  | number:'2.1-1'}}%
+    </p>
      
 </mat-card>
 
