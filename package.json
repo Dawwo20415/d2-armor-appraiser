@@ -8,7 +8,7 @@
     "build": "ng build",
     "gh-build": "ng build --base-href \"https://dawwo20415.github.io/d2-armor-appraiser/\" && ngh --dir dist/d2-armor-appraiser",
     "actions:test": "ng test --watch=false --browsers=ChromeHeadless",
-    "actions:build": "ng build --configuration production --base-href \"https://dawwo20415.github.io/d2-armor-appraiser/\"",
+    "actions:build": "ng build --configuration production --base-href /d2-armor-appraiser/",
     "actions:buildtry": "ng build --configuration development --base-href \"http://localhost:4200/\"",
     "actions:deploy": "ngh --no-silent --dir=dist/d2-armor-appraiser",
     "watch": "ng build --watch --configuration development",
