@@ -2,7 +2,6 @@ import { NgModule }                     from '@angular/core';
 import { BrowserModule }                from '@angular/platform-browser';
 import { HttpClientModule }             from '@angular/common/http';
 import { ReactiveFormsModule }          from '@angular/forms'
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 // Components and Pages
 import { AppRoutingModule }             from './app-routing.module';
@@ -64,7 +63,7 @@ import { ClipboardModule }              from '@angular/cdk/clipboard';
     FlexLayoutModule,
     ClipboardModule 
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
