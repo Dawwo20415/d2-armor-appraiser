@@ -31,4 +31,3 @@ jobs:
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: dist/d2-armor-appraiser
-        token: ${{ secrets.ACCESS_TOKEN }}
