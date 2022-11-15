@@ -18,14 +18,17 @@ jobs:
       with:
         node-version: '16'
 
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+      
     - name: Install dependencies
       run: npm install --legacy-peer-deps
 
+    - name: Build
+      run: npm run actions:build
+
     - name: Deploy
-      uses: AhsanAyaz/angular-deploy-gh-pages-actions@v1.3.2
+      uses: JamesIves/github-pages-deploy-action@v4s
       with:
-        github_access_token: ${{ secrets.ACCESS_TOKEN }}
-        build_configuration: production
-        base_href: https://dawwo20415.github.io/d2-armor-appraiser/
-        deploy_branch: gh-pages 
-        angular_dist_build_folder: dist/d2-armor-appraiser
+        folder: dist/d2-armor-appraiser
+        token: ${{ secrets.ACCESS_TOKEN }}
