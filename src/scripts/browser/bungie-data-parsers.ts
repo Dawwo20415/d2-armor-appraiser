@@ -1,5 +1,5 @@
 import { BNG_CharBucketData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
-import { ArmorItem, ArmorStats, Character, Membership } from "@dataTypes/storage-data.module";
+import { ArmorCollectionInfo, ArmorItem, ArmorStats, Character, Membership } from "@dataTypes/storage-data.module";
 
 import { stats, characters, HCharacters } from '@Bhashes/characters'
 import { perks } from "@Bhashes/perks";
@@ -150,6 +150,55 @@ export function filterByQuantity(dataSet: ArmorItem[], treshold: number): ArmorI
 
   for (let i = quantity; i < dataSet.length; i++) {
       newDataSet.push(dataSet[i]);
+  }
+  
+  return newDataSet;
+}
+
+export function filterByQuantityWeigthed(dataSet: ArmorItem[], treshold: number, weight: ArmorCollectionInfo): ArmorItem[] {
+  var newDataSet: ArmorItem[] = [];
+
+  const quantity = Math.trunc(dataSet.length * treshold);
+  let tholdHelmet = Math.trunc(quantity * (weight.helmetQuantity/dataSet.length));
+  let tholdGloves = Math.trunc(quantity * (weight.glovesQuantity/dataSet.length)); 
+  let tholdChest  = Math.trunc(quantity * (weight.chestQuantity/dataSet.length)); 
+  let tholdBoots  = quantity - tholdHelmet - tholdGloves - tholdChest; 
+
+  let deleted = 0;
+  for (let i = 0; deleted < quantity; i++) {
+    switch (dataSet[dataSet.length-i-1].itemType) {
+      case 'helmet':
+        if (tholdHelmet > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdHelmet--;
+          deleted++;
+        }
+        break;
+      case 'gloves':
+        if (tholdGloves > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdGloves--;
+          deleted++;
+        }
+        break;
+      case 'chest':
+        if (tholdChest > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdChest--;
+          deleted++;
+        }
+        break;
+      case 'boots':
+        if (tholdBoots > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdBoots--;
+          deleted++;
+        }
+        break;
+      default:
+        deleted++;
+        break;
+    }  
   }
   
   return newDataSet;

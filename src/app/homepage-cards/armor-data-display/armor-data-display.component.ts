@@ -39,6 +39,7 @@ export class ArmorDataDisplayComponent implements OnInit {
       this.resetCollectionData();
       this.armorList = this.manifestService.assignIcons(tmp);
       this.gatherCollectionData(this.armorList);
+      this.updateTableService.updateCollectionInfo(this.collection_info);
       storeItems(tmp);
     } catch(e) {
       console.log(e + ' | It is probable that the armor data has not been retrieved from bungie API, please select a character to take the armor data from!');

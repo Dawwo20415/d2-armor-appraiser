@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ArmorItem } from '@dataTypes/storage-data.module';
 import { getItems } from '@scripts/browser/storage-interface';
-import { filterByQuantity, createIdString } from '@Ibrowser/bungie-data-parsers';
+import { filterByQuantity, createIdString, filterByQuantityWeigthed } from '@Ibrowser/bungie-data-parsers';
+import { ArmorTableUpdaterService } from '@Ibrowser/armor-table-updater.service';
 
 @Component({
   selector: 'app-score-filter',
@@ -18,7 +19,7 @@ export class ScoreFilterComponent implements OnInit {
   adjust_by_armor_type: boolean = false;
   add_notinloadout: boolean = true;
 
-  constructor() { }
+  constructor(private table_update_service: ArmorTableUpdaterService) { }
 
   ngOnInit(): void {
   }
@@ -29,7 +30,11 @@ export class ScoreFilterComponent implements OnInit {
         this.treshold = value;
         const dataSet = getItems();
         this.armor_quantity = dataSet.length;
-        this.to_dismantle = filterByQuantity(dataSet, this.treshold / 100);
+        if (this.adjust_by_armor_type) {
+          this.to_dismantle = filterByQuantityWeigthed(dataSet, this.treshold / 100, this.table_update_service.getCollectionInfo());
+        } else {
+          this.to_dismantle = filterByQuantity(dataSet, this.treshold / 100);
+        }  
         this.to_dismantle_quantity = this.to_dismantle.length;
       }  
     } catch(e) {
@@ -38,7 +43,6 @@ export class ScoreFilterComponent implements OnInit {
   }
 
   generateQueryString() {
-    console.log('Il valore di add_notinloadout è: ' + this.add_notinloadout);
     if (this.add_notinloadout) {
       this.DIMquery = `not:inloadout and (${createIdString(this.to_dismantle)})`;
     } else {
