@@ -1,0 +1,10 @@
+<mat-card class="data-card">
+    <mat-card-header>
+        <mat-card-title>Character Select...</mat-card-title>
+        <mat-card-subtitle>Choose one of your NUMBER guardians</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-button-toggle-group #CharSelect="matButtonToggleGroup" (change)="loadCharacterArmor(CharSelect.value)" name="selectedCharacter">
+        <mat-button-toggle *ngFor="let character of characters" [value]="character">{{classes[character.class_hash]}}</mat-button-toggle>
+    </mat-button-toggle-group>
+</mat-card>

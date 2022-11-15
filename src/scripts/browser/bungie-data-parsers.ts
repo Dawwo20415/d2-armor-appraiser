@@ -1,7 +1,7 @@
 import { BNG_CharBucketData, BNG_Response, BNG_VaultBucketData } from "@dataTypes/bungie-response-data.module";
-import { ArmorItem, Character, Membership } from "@dataTypes/storage-data.module";
+import { ArmorCollectionInfo, ArmorItem, ArmorStats, Character, Membership } from "@dataTypes/storage-data.module";
 
-import { stats, characters } from '@Bhashes/characters'
+import { stats, characters, HCharacters } from '@Bhashes/characters'
 import { perks } from "@Bhashes/perks";
 import { buckets_hashes } from "@Bhashes/buckets";
 
@@ -46,6 +46,9 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           
           var newItem: ArmorItem = {
               itemInstanceId: inventory_items[i].itemInstanceId,
+              itemHash: inventory_items[i].itemHash,
+              itemType: assignTypeChar(inventory_items[i].bucketHash),
+              iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
                   res: arrayStats[stats['res']].value,
@@ -73,6 +76,9 @@ export function parseCharacterArmor(dataSet: BNG_Response, filtered_dataSet: Arm
           
           var newItem: ArmorItem = {
               itemInstanceId: equipment_items[i].itemInstanceId,
+              itemHash: equipment_items[i].itemHash,
+              itemType: assignTypeChar(equipment_items[i].bucketHash),
+              iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
                   res: arrayStats[stats['res']].value,
@@ -112,6 +118,9 @@ export function parseProfileArmor(dataSet:BNG_Response, character: string, filte
           
           var newItem: ArmorItem = {
               itemInstanceId:profile_items[i].itemInstanceId,
+              itemHash: profile_items[i].itemHash,
+              itemType: assignTypeVault(items_inst[profile_items[i].itemInstanceId].unlockHashesRequiredToEquip[0], character),
+              iconPath: "",
               stats: {
                   mob: arrayStats[stats['mob']].value,
                   res: arrayStats[stats['res']].value,
@@ -146,6 +155,55 @@ export function filterByQuantity(dataSet: ArmorItem[], treshold: number): ArmorI
   return newDataSet;
 }
 
+export function filterByQuantityWeigthed(dataSet: ArmorItem[], treshold: number, weight: ArmorCollectionInfo): ArmorItem[] {
+  var newDataSet: ArmorItem[] = [];
+
+  const quantity = Math.trunc(dataSet.length * treshold);
+  let tholdHelmet = Math.trunc(quantity * (weight.helmetQuantity/dataSet.length));
+  let tholdGloves = Math.trunc(quantity * (weight.glovesQuantity/dataSet.length)); 
+  let tholdChest  = Math.trunc(quantity * (weight.chestQuantity/dataSet.length)); 
+  let tholdBoots  = quantity - tholdHelmet - tholdGloves - tholdChest; 
+
+  let deleted = 0;
+  for (let i = 0; deleted < quantity; i++) {
+    switch (dataSet[dataSet.length-i-1].itemType) {
+      case 'helmet':
+        if (tholdHelmet > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdHelmet--;
+          deleted++;
+        }
+        break;
+      case 'gloves':
+        if (tholdGloves > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdGloves--;
+          deleted++;
+        }
+        break;
+      case 'chest':
+        if (tholdChest > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdChest--;
+          deleted++;
+        }
+        break;
+      case 'boots':
+        if (tholdBoots > 0) {
+          newDataSet.push(dataSet[dataSet.length-i-1]);
+          tholdBoots--;
+          deleted++;
+        }
+        break;
+      default:
+        deleted++;
+        break;
+    }  
+  }
+  
+  return newDataSet;
+}
+
 // Unexported Functions
 
 function adjustStatsForModifiers(item: ArmorItem, perkList: any) {
@@ -153,50 +211,49 @@ function adjustStatsForModifiers(item: ArmorItem, perkList: any) {
 
   if (typeof perkList === 'undefined') return result;
 
-  //TODO: Why do i need to cast it as any, where do I need to modify this?
   for (let i = 0; i < perkList.perks.length; i++) {
       //Conditions
       let _hash: string = perkList.perks[i].perkHash;
 
       //+5
-      if (!(typeof (perks.plus.five as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.plus.five as any)[_hash]] -= 5;
+      if (!(typeof perks.plus.five[_hash] === 'undefined')) {
+          result.stats[perks.plus.five[_hash] as keyof ArmorStats] -= 5;
           result.stats['mob'] -= 5;
           result.stats['tot'] -= 5;
           continue;
       }
 
       //+10
-      if (!(typeof (perks.plus.ten as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.plus.ten as any)[_hash]] -= 10;
+      if (!(typeof perks.plus.ten[_hash] === 'undefined')) {
+          result.stats[perks.plus.ten[_hash] as keyof ArmorStats] -= 10;
           result.stats['tot'] -= 10;
           continue;
       }
 
       //+20
-      if (!(typeof (perks.plus.twenty as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.plus.twenty as any)[_hash]] -= 20;
+      if (!(typeof perks.plus.twenty[_hash] === 'undefined')) {
+          result.stats[perks.plus.twenty[_hash] as keyof ArmorStats] -= 20;
           result.stats['tot'] -= 20;
           continue;
       }
 
       //-5
-      if (!(typeof (perks.minus.five as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.minus.five as any)[_hash]] += 5;
+      if (!(typeof perks.minus.five[_hash] === 'undefined')) {
+          result.stats[perks.minus.five[_hash] as keyof ArmorStats] += 5;
           result.stats['tot'] += 5;
           continue;
       }
 
       //-10
-      if (!(typeof (perks.minus.ten as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.minus.ten as any)[_hash]] += 10;
+      if (!(typeof perks.minus.ten[_hash] === 'undefined')) {
+          result.stats[perks.minus.ten[_hash] as keyof ArmorStats] += 10;
           result.stats['tot'] += 10;
           continue;
       }
 
       //-20
-      if (!(typeof (perks.minus.twenty as any)[_hash] === 'undefined')) {
-          (result.stats as any)[(perks.minus.twenty as any)[_hash]] += 20;
+      if (!(typeof perks.minus.twenty[_hash] === 'undefined')) {
+          result.stats[perks.minus.twenty[_hash] as keyof ArmorStats] += 20;
           result.stats['tot'] += 20;
           continue;
       }
@@ -240,6 +297,14 @@ function characterArmorSelectConditions(item_profile: any, item_instance: any) {
   return false;
 }
 
+function assignTypeChar(hash: any): string {
+  if (hash == buckets_hashes.helmet) return 'helmet';
+  if (hash == buckets_hashes.gauntlets) return 'gloves';
+  if (hash == buckets_hashes.chest) return 'chest';
+  if (hash == buckets_hashes.legs) return 'boots';
+  return 'undefined';
+}
+
 function vaultArmorSelectConditions(profileItem: any, instanceItem: any, character: any) {
 
   // Is item in vault?
@@ -253,15 +318,23 @@ function vaultArmorSelectConditions(profileItem: any, instanceItem: any, charact
   // Is it a pice of armor?
   if (instanceItem.primaryStat.statHash != 3897883278) return false;
   // Is item a "class-item"?
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].class_item) return false;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].class_item) return false;
   
   // Does it belong to the selected character? POSITIVE EXIT
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].helmet) return true;
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].gloves) return true;
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].chest) return true;
-  if (instanceItem.unlockHashesRequiredToEquip[0] == (characters as any)[character].legs) return true; 
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].helmet) return true;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].gloves) return true;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].chest) return true;
+  if (instanceItem.unlockHashesRequiredToEquip[0] == characters[character as keyof HCharacters].legs) return true; 
 
   return false;
+}
+
+function assignTypeVault(hash: any, character: any): string {
+  if (hash == characters[character as keyof HCharacters].helmet) return 'helmet';
+  if (hash == characters[character as keyof HCharacters].gloves) return 'gloves';
+  if (hash == characters[character as keyof HCharacters].chest) return 'chest';
+  if (hash == characters[character as keyof HCharacters].legs) return 'boots'; 
+  return 'undefined';
 }
 
 export function createIdString (data: ArmorItem[]) {
@@ -275,4 +348,15 @@ export function createIdString (data: ArmorItem[]) {
   }
 
   return result;
+}
+
+
+export function compareByScore(a: ArmorItem, b: ArmorItem) {
+  if (a.score < b.score) {
+      return 1;
+  } else if (a.score >= b.score) {
+      return -1;
+  } else {
+      return 0;
+  }
 }

@@ -1,0 +1,27 @@
+<mat-card class="data-card">
+    <mat-card-header>
+        <mat-card-title>Score Filter Parameters</mat-card-title>
+        <mat-card-subtitle>Choose the treshold for filtering armor items</mat-card-subtitle>
+    </mat-card-header>
+
+    <label>TRASHOLD:</label>
+    <mat-slider min="0" max="100" step="1" tickInterval="auto | 1" (change)="generateQueryString()" (valueChange)="updateTreshold($event)"></mat-slider><br>
+
+    <h1>{{treshold}}%</h1>
+
+    <mat-checkbox class="example-margin" checked="true"
+        (change)="add_notinloadout=!add_notinloadout; generateQueryString()">
+        
+        Add 'not:inlodaut' clause to DIM query
+    </mat-checkbox>
+
+    <mat-checkbox class="example-margin"
+        (change)="adjust_by_armor_type=!adjust_by_armor_type; generateQueryString()">
+        
+        Adjust selection by armor type
+    </mat-checkbox>
+
+    <p>{{to_dismantle_quantity}} armor pices out of {{armor_quantity}} have been selected for deletion</p>
+
+    <button mat-raised-button [cdkCopyToClipboard]="DIMquery" color="primary">Copy DIM query to clipboard</button>
+</mat-card>

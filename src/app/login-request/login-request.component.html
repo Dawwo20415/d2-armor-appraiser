@@ -1,0 +1,46 @@
+<!--Default Case-->
+<div *ngIf="case==1" class="login-request">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>You are not logged in your Bungie.net Account</mat-card-title>
+            <mat-card-subtitle>Plaease log in your preferred Bungie.net Account by clicking the button below</mat-card-subtitle>
+        </mat-card-header>
+
+        <button (click)="redirectToBungieLogin()" mat-raised-button color="primary">Log In</button>
+    </mat-card>
+</div>
+
+<!--Unauthorized Case-->
+<div *ngIf="case==401" class="login-request">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>The provided authorization was rejected by Bungie.net</mat-card-title>
+            <mat-card-subtitle>Your login token has probably expired, please log into Bungie.net using the button below</mat-card-subtitle>
+        </mat-card-header>
+
+        <button (click)="redirectToBungieLogin()" mat-raised-button color="primary">Renew Credentials</button>
+    </mat-card>
+</div>
+
+<!--Internal Server Error Case-->
+<div *ngIf="case==500" class="login-request">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Bungie Responded with an internal server error</mat-card-title>
+            <mat-card-subtitle>Your login token, or other data has probably been corrupted, please log into Bungie.net again using the button below</mat-card-subtitle>
+        </mat-card-header>
+
+        <button (click)="redirectToBungieLogin()" mat-raised-button color="primary">Renew Credentials</button> 
+    </mat-card>
+</div>
+
+<!--Maintenance Case-->
+<div *ngIf="case==503" class="login-request">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Bungie services are unavailable</mat-card-title>
+            <mat-card-subtitle>Bungie services are probably undergoing maintenance, prease check <a href="https://twitter.com/BungieHelp">@BungieHelp</a> on Twitter for more informations</mat-card-subtitle>
+        </mat-card-header>
+
+    </mat-card>
+</div>

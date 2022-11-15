@@ -1,6 +1,5 @@
-import { BNG_AuthToken, BNG_Response } from '@dataTypes/bungie-response-data.module';
+import { BNG_AuthToken, BNG_CommonItemData, BNG_Response } from '@dataTypes/bungie-response-data.module';
 import { ArmorItem, Character, Membership } from '@dataTypes/storage-data.module';
-
 import { parseCharactersData, parseMembershipData } from '@Ibrowser/bungie-data-parsers';
 
 
@@ -12,6 +11,7 @@ const auth_token       = `${app_prefix}authToken`;
 const membership       = `${app_prefix}membership`;
 const character_data   = `${app_prefix}characters`;
 const armor_items_list = `${app_prefix}armorItemsList`;
+const bng_affinity     = `${app_prefix}affinity`;
 
 //Resource interacting functions
 
@@ -36,11 +36,10 @@ function accessResource(resource: string): string {
         return result;
 
     result = sessionStorage.getItem(resource);
-    //TODO: when implementing error handling add exeption for null result
     if (result != null)
         return result;
 
-    return '{status:"ERROR"}';
+    throw new Error('Resource not available: ' + resource.toString());
 }
 
 function storeResource(storage_type_flag: boolean, name: string, value : any, is_string = false): void {
@@ -79,6 +78,10 @@ export function getMembership(): Membership{
     return JSON.parse(accessResource(membership));
 }
 
+export function getAffinity(): string {
+    return accessResource(bng_affinity);
+}
+
 //Resource setters
 
 export function storeUUIDState(value: string): void {
@@ -99,4 +102,8 @@ export function storeCharacters(value: BNG_Response): void {
 
 export function storeItems(value: ArmorItem[]): void {
     storeResource(false, armor_items_list, value);
+}
+
+export function storeAffinity(value: string): void {
+    storeResource(false, bng_affinity, value);
 }

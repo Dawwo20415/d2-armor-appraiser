@@ -1,4 +1,21 @@
-export const characters = {
+export interface HArmament {
+    helmet: string,
+    gloves: string,
+    chest: string,
+    legs: string,
+    class_item: string
+}
+
+export interface HCharacters {
+    //Hunter
+    "671679327": HArmament,
+    //Warlock
+    "2271682572": HArmament,
+    //Titan
+    "3655393761": HArmament
+}
+
+export const characters: HCharacters = {
     // Hunter
     "671679327": {
         helmet: "3720682193",
@@ -25,10 +42,14 @@ export const characters = {
     }
 };
 
-export const char_class = {
-    hunter: "671679327",
-    warlock: "2271682572",
-    titan: "3655393761"
+export interface Iclasshashes {
+    [key: string]: string;
+}
+
+export const char_class: Iclasshashes = {
+    "671679327": "Hunter",
+    "2271682572": "Warlock",
+    "3655393761": "Titan"
 };
 
 export const stats = {
