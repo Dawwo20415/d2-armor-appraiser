@@ -31,7 +31,10 @@ export class BungieApiInterfaceService {
   }
 
   public getManifestList() {
-    return this.http.get<BNG_Response>( 'https://www.bungie.net/Platform/Destiny2/Manifest/')
+    let headers = new HttpHeaders()
+      .set('x-api-key', environment.BUNGIE_API_KEY);
+
+    return this.http.get<BNG_Response>( 'https://www.bungie.net/Platform/Destiny2/Manifest/', { headers: headers })
       .pipe(map(response => response));
   }
 
