@@ -31,6 +31,8 @@ jobs:
     - name: Build
       run: npm run actions:build
 
+    - name: 404 Angular Correction
+      run: cp dist/d2-armor-appraiser/index.html dist/d2-armor-appraiser/404.html
     #- name: Deploy
     #  run: npm run actions:deploy
 
