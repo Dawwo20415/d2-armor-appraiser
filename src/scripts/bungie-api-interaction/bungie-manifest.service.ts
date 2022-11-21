@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BNG_CommonItemData } from '@dataTypes/bungie-response-data.module';
+import { BNG_CommonItemData, BNG_ManifestList } from '@dataTypes/bungie-response-data.module';
 import { ArmorItem } from '@dataTypes/storage-data.module';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
-import { lvfManifest } from '@Ibungie/bungie-api-calls-library';
+import { lvfManifest, lvfManifestLink } from '@Ibungie/bungie-api-calls-library';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,10 @@ export class BungieManifestService {
   constructor(private bungie_api: BungieApiInterfaceService) { }
 
   public async downloadManifest(): Promise<void> {
-    this.manifest = await lvfManifest(this.bungie_api);
+
+    let response = await lvfManifestLink(this.bungie_api);
+    let links: BNG_ManifestList = response.Response;
+    this.manifest = await lvfManifest(this.bungie_api, links.jsonWorldComponentContentPaths.en.DestinyInventoryItemLiteDefinition);
 
     for (let key in this.manifest){
       if (!this.manifest[key].equippable) 

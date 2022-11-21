@@ -1,13 +1,18 @@
 import { lastValueFrom } from 'rxjs';
 import { BungieApiInterfaceService } from '@Ibungie/bungie-api-interface.service';
-import { BNG_AuthToken, BNG_CommonItemData, BNG_Membership, BNG_Response } from '@dataTypes/bungie-response-data.module';
+import { BNG_AuthToken, BNG_CommonItemData, BNG_Membership, BNG_Response, BNG_ManifestList } from '@dataTypes/bungie-response-data.module';
 import { Membership } from '@dataTypes/storage-data.module';
 
 //TODO: Find a more elegant way to do this
 //This should NOT contain the whole thing that a component needs to do, that just moves the whole code
 //This should only handle retrival of data from service requests
-export async function lvfManifest(service: BungieApiInterfaceService): Promise<BNG_CommonItemData> {
-    const manifest$ = service.getDestinyManifest();
+export async function lvfManifestLink(service: BungieApiInterfaceService): Promise<BNG_Response> {
+    const subscription$ = service.getManifestList();
+    return await lastValueFrom(subscription$);
+}
+
+export async function lvfManifest(service: BungieApiInterfaceService, link: string): Promise<BNG_CommonItemData> {
+    const manifest$ = service.getDestinyManifest(link);
     return await lastValueFrom(manifest$);
 }
 
