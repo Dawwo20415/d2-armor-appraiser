@@ -26,7 +26,7 @@ export function statDivergence_v1(filteredDataSet: ArmorItem[], weight: Array<nu
         // Larger the difference between stats means better score
         var stat_comulative_score = 0;
         for (let j = 0; j < 6; j++) {
-            for (let k = 0; k < 5; k++) {
+            for (let k = 0; k < 6; k++) {
                 if (k == j) {continue;}
                 
                 stat_comulative_score += Math.abs((scoredDataSet[i].stats as any)[stats_enum[j]] - (scoredDataSet[i].stats as any)[stats_enum[k]]);
