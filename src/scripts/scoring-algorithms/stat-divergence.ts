@@ -18,9 +18,9 @@ export function statDivergence_v1(filteredDataSet: ArmorItem[], weight: Array<nu
 
         
         // Distance from a multiple of 5 and tier for total armor
-        const armor_tier = Math.round(scoredDataSet[i].stats.tot / 5) - 5;
-        const dist_from_m5 = Math.abs((armor_tier+5)*5 - scoredDataSet[i].stats.tot);
-        const armor_value = armor_tier - dist_from_m5 + 1;
+        const armor_tier = Math.round(scoredDataSet[i].stats.tot / 5);
+        const dist_from_m5 = Math.abs((armor_tier)*5 - scoredDataSet[i].stats.tot);
+        const armor_value = armor_tier - dist_from_m5 -9;
 
         // how well are the stats distributed?
         // Larger the difference between stats means better score
