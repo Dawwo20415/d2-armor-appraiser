@@ -1,6 +1,6 @@
 {
   "name": "d2-armor-appraiser",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Software to evaluate armor items in the game Destiny 2",
   "scripts": {
     "ng": "ng",
