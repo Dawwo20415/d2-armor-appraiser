@@ -35,7 +35,7 @@ export function statDivergence_v1(filteredDataSet: ArmorItem[], weight: Array<nu
         
         // Mapping comulative score to the range [0,464] as 464 is the theoretical max score for a 
         // 2,2,31,2,2,31 pice with a total of 70 base stats
-        stat_comulative_score = stat_comulative_score / 464;
+        stat_comulative_score /= 464;
 
         var final_score = stat_comulative_score * armor_value * weighted_total;
 
