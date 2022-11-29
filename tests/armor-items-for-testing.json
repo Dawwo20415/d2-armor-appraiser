@@ -1,0 +1,58 @@
+[
+        {
+            "stats": {
+                "mob": 12,
+                "res": 12,
+                "rec": 12,
+                "dis": 12,
+                "int": 12,
+                "str": 12,
+                "tot": 72
+            },
+            "score": 0
+        },{
+            "stats": {
+                "mob": 13,
+                "res": 10,
+                "rec": 13,
+                "dis": 12,
+                "int": 13,
+                "str": 11,
+                "tot": 72
+            },
+            "score": 0
+        },{
+            "stats": {
+                "mob": 6,
+                "res": 15,
+                "rec": 15,
+                "dis": 13,
+                "int": 8,
+                "str": 15,
+                "tot": 72
+            },
+            "score": 0
+        },{
+            "stats": {
+                "mob": 12,
+                "res": 4,
+                "rec": 20,
+                "dis": 18,
+                "int": 13,
+                "str": 5,
+                "tot": 72
+            },
+            "score": 0
+        },{
+            "stats": {
+                "mob": 4,
+                "res": 4,
+                "rec": 28,
+                "dis": 28,
+                "int": 4,
+                "str": 4,
+                "tot": 72
+            },
+            "score": 0
+        }
+    ]
