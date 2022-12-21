@@ -1,17 +1,22 @@
-<p>
-    <mat-toolbar>
+
+    <mat-toolbar style="background-color: gray;">
       <button mat-icon-button class="" aria-label="menu" *ngIf="mobile">
         <mat-icon>menu</mat-icon>
       </button>
   
-      <span>Destiny 2 Aromor Appraiser</span>
+      <span>Destiny 2 Aromor Appraiser </span>
   
       <span *ngIf="!mobile">
-        <a href="url">Armory cleaner</a>
+        <a href="url"> Armory cleaner </a>
         <a href="url">Wiki</a>
       </span>
   
       <span class="spacer"></span>
+
+      <button mat-icon-button class="" aria-label="Account">
+        <mat-icon>perm_identity</mat-icon>
+        Account
+      </button>
     </mat-toolbar>
-  </p>
+
 <router-outlet></router-outlet>

@@ -1,16 +1,23 @@
 <div class="info-display">
-    <!-- Left Column-->
-    <div class="algorithm-data">
-        <app-dev-controll-card *ngIf="isDevEnvironment"></app-dev-controll-card>
-        <app-character-select></app-character-select>
-        <app-algorithm-parameters></app-algorithm-parameters>
-        <app-score-filter></app-score-filter>
-        
-    </div>
 
-    <!-- Right Column-->
-    <div class="armor-display">
-        <app-armor-data-display></app-armor-data-display>
-    </div>
+    <!-- Dev opt container-->
+    <app-dev-controll-card *ngIf="isDevEnvironment"></app-dev-controll-card>
+
+    <!-- Side nav container-->
+    <mat-drawer-container> 
+
+        <!-- side Column-->
+        <mat-drawer #drawer class="algorithm-data"  mode="side" opened>
+            <app-character-select></app-character-select>
+            <app-algorithm-parameters></app-algorithm-parameters>
+            <app-score-filter></app-score-filter>
+        </mat-drawer> 
+    
+        <!-- central Column-->
+        <mat-drawer-content class="armor-display"> 
+            <app-armor-data-display></app-armor-data-display>
+        </mat-drawer-content>
+    </mat-drawer-container>
+   
 </div>
 
